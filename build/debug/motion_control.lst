@@ -1,0 +1,307 @@
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccTJ9Ezu.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"motion_control.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/motion_control.c"
+  20              		.section	.text.InitMotionControl,"ax",%progbits
+  21              		.align	1
+  22              		.global	InitMotionControl
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	InitMotionControl:
+  28              	.LVL0:
+  29              	.LFB292:
+   1:Core/Src/motion_control.c **** #ifndef MOTION_CONTROL_C
+   2:Core/Src/motion_control.c **** #define MOTION_CONTROL_C
+   3:Core/Src/motion_control.c **** 
+   4:Core/Src/motion_control.c **** #include "motion_control.h"
+   5:Core/Src/motion_control.c **** #include "robot_config.h"
+   6:Core/Src/motion_control.c **** #include <math.h>
+   7:Core/Src/motion_control.c **** #include "main.h"
+   8:Core/Src/motion_control.c **** 
+   9:Core/Src/motion_control.c **** void InitMotionControl(MotionState* state) {
+  30              		.loc 1 9 44 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 9 44 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39 0002 0446     		mov	r4, r0
+  10:Core/Src/motion_control.c ****     state->current_speed = 0.0f;
+  40              		.loc 1 10 5 is_stmt 1 view .LVU2
+  41              		.loc 1 10 26 is_stmt 0 view .LVU3
+  42 0004 0023     		movs	r3, #0
+  43 0006 0360     		str	r3, [r0]	@ float
+  11:Core/Src/motion_control.c ****     state->target_speed = 0.0f;
+  44              		.loc 1 11 5 is_stmt 1 view .LVU4
+  45              		.loc 1 11 25 is_stmt 0 view .LVU5
+  46 0008 4360     		str	r3, [r0, #4]	@ float
+  12:Core/Src/motion_control.c ****     state->current_acceleration = 0.0f;
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccTJ9Ezu.s 			page 2
+
+
+  47              		.loc 1 12 5 is_stmt 1 view .LVU6
+  48              		.loc 1 12 33 is_stmt 0 view .LVU7
+  49 000a 8360     		str	r3, [r0, #8]	@ float
+  13:Core/Src/motion_control.c ****     state->current_steering = 0.0f;
+  50              		.loc 1 13 5 is_stmt 1 view .LVU8
+  51              		.loc 1 13 29 is_stmt 0 view .LVU9
+  52 000c C360     		str	r3, [r0, #12]	@ float
+  14:Core/Src/motion_control.c ****     state->target_steering = 0.0f;
+  53              		.loc 1 14 5 is_stmt 1 view .LVU10
+  54              		.loc 1 14 28 is_stmt 0 view .LVU11
+  55 000e 0361     		str	r3, [r0, #16]	@ float
+  15:Core/Src/motion_control.c ****     state->last_update = HAL_GetTick();
+  56              		.loc 1 15 5 is_stmt 1 view .LVU12
+  57              		.loc 1 15 26 is_stmt 0 view .LVU13
+  58 0010 FFF7FEFF 		bl	HAL_GetTick
+  59              	.LVL1:
+  60              		.loc 1 15 24 discriminator 1 view .LVU14
+  61 0014 6061     		str	r0, [r4, #20]
+  16:Core/Src/motion_control.c **** }
+  62              		.loc 1 16 1 view .LVU15
+  63 0016 10BD     		pop	{r4, pc}
+  64              		.loc 1 16 1 view .LVU16
+  65              		.cfi_endproc
+  66              	.LFE292:
+  68              		.section	.text.UpdateMotionControl,"ax",%progbits
+  69              		.align	1
+  70              		.global	UpdateMotionControl
+  71              		.syntax unified
+  72              		.thumb
+  73              		.thumb_func
+  75              	UpdateMotionControl:
+  76              	.LVL2:
+  77              	.LFB293:
+  17:Core/Src/motion_control.c **** 
+  18:Core/Src/motion_control.c **** void UpdateMotionControl(MotionState* state, float dt) {
+  78              		.loc 1 18 56 is_stmt 1 view -0
+  79              		.cfi_startproc
+  80              		@ args = 0, pretend = 0, frame = 0
+  81              		@ frame_needed = 0, uses_anonymous_args = 0
+  19:Core/Src/motion_control.c ****     // Handle zero dt
+  20:Core/Src/motion_control.c ****     if(dt <= 0) return;
+  82              		.loc 1 20 5 view .LVU18
+  83              		.loc 1 20 7 is_stmt 0 view .LVU19
+  84 0000 B5EEC00A 		vcmpe.f32	s0, #0
+  85 0004 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  86 0008 62D9     		bls	.L12
+  18:Core/Src/motion_control.c ****     // Handle zero dt
+  87              		.loc 1 18 56 view .LVU20
+  88 000a 10B5     		push	{r4, lr}
+  89              		.cfi_def_cfa_offset 8
+  90              		.cfi_offset 4, -8
+  91              		.cfi_offset 14, -4
+  92 000c 2DED028B 		vpush.64	{d8}
+  93              		.cfi_def_cfa_offset 16
+  94              		.cfi_offset 80, -16
+  95              		.cfi_offset 81, -12
+  96 0010 0446     		mov	r4, r0
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccTJ9Ezu.s 			page 3
+
+
+  97 0012 B0EE408A 		vmov.f32	s16, s0
+  21:Core/Src/motion_control.c **** 
+  22:Core/Src/motion_control.c ****     // 1. Speed control with jerk limitation
+  23:Core/Src/motion_control.c ****     float req_acceleration = (state->target_speed - state->current_speed) / dt;
+  98              		.loc 1 23 5 is_stmt 1 view .LVU21
+  99              		.loc 1 23 36 is_stmt 0 view .LVU22
+ 100 0016 90ED010A 		vldr.32	s0, [r0, #4]
+ 101              	.LVL3:
+ 102              		.loc 1 23 58 view .LVU23
+ 103 001a D0ED008A 		vldr.32	s17, [r0]
+ 104              		.loc 1 23 51 view .LVU24
+ 105 001e 30EE680A 		vsub.f32	s0, s0, s17
+ 106              	.LVL4:
+  24:Core/Src/motion_control.c ****     req_acceleration = fmaxf(fminf(req_acceleration, MAX_LINEAR_ACCEL), -MAX_LINEAR_ACCEL);
+ 107              		.loc 1 24 5 is_stmt 1 view .LVU25
+ 108              		.loc 1 24 24 is_stmt 0 view .LVU26
+ 109 0022 F0EE000A 		vmov.f32	s1, #2.0e+0
+ 110 0026 80EE080A 		vdiv.f32	s0, s0, s16
+ 111              	.LVL5:
+ 112              		.loc 1 24 24 view .LVU27
+ 113 002a FFF7FEFF 		bl	fminf
+ 114              	.LVL6:
+ 115              		.loc 1 24 24 discriminator 1 view .LVU28
+ 116 002e F8EE000A 		vmov.f32	s1, #-2.0e+0
+ 117 0032 FFF7FEFF 		bl	fmaxf
+ 118              	.LVL7:
+  25:Core/Src/motion_control.c ****     
+  26:Core/Src/motion_control.c ****     float jerk = (req_acceleration - state->current_acceleration) / dt;
+ 119              		.loc 1 26 5 is_stmt 1 view .LVU29
+ 120              		.loc 1 26 43 is_stmt 0 view .LVU30
+ 121 0036 94ED027A 		vldr.32	s14, [r4, #8]
+ 122              		.loc 1 26 36 view .LVU31
+ 123 003a 70EE477A 		vsub.f32	s15, s0, s14
+ 124              		.loc 1 26 11 view .LVU32
+ 125 003e C7EE886A 		vdiv.f32	s13, s15, s16
+ 126              	.LVL8:
+  27:Core/Src/motion_control.c ****     if(fabsf(jerk) > MAX_LINEAR_JERK) {
+ 127              		.loc 1 27 5 is_stmt 1 view .LVU33
+ 128              		.loc 1 27 8 is_stmt 0 view .LVU34
+ 129 0042 B0EEE66A 		vabs.f32	s12, s13
+ 130              		.loc 1 27 7 view .LVU35
+ 131 0046 F1EE047A 		vmov.f32	s15, #5.0e+0
+ 132 004a B4EEE76A 		vcmpe.f32	s12, s15
+ 133 004e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 134 0052 09DD     		ble	.L5
+  28:Core/Src/motion_control.c ****         jerk = copysignf(MAX_LINEAR_JERK, jerk);
+ 135              		.loc 1 28 9 is_stmt 1 view .LVU36
+ 136              		.loc 1 28 16 is_stmt 0 view .LVU37
+ 137 0054 16EE903A 		vmov	r3, s13	@ int
+ 138 0058 002B     		cmp	r3, #0
+ 139 005a 01DA     		bge	.L7
+ 140 005c F9EE047A 		vmov.f32	s15, #-5.0e+0
+ 141              	.L7:
+ 142              	.LVL9:
+  29:Core/Src/motion_control.c ****         req_acceleration = state->current_acceleration + jerk * dt;
+ 143              		.loc 1 29 9 is_stmt 1 view .LVU38
+ 144              		.loc 1 29 63 is_stmt 0 view .LVU39
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccTJ9Ezu.s 			page 4
+
+
+ 145 0060 28EE270A 		vmul.f32	s0, s16, s15
+ 146              	.LVL10:
+ 147              		.loc 1 29 26 view .LVU40
+ 148 0064 37EE000A 		vadd.f32	s0, s14, s0
+ 149              	.LVL11:
+ 150              	.L5:
+  30:Core/Src/motion_control.c ****     }
+  31:Core/Src/motion_control.c **** 
+  32:Core/Src/motion_control.c ****     state->current_acceleration = req_acceleration;
+ 151              		.loc 1 32 5 is_stmt 1 view .LVU41
+ 152              		.loc 1 32 33 is_stmt 0 view .LVU42
+ 153 0068 84ED020A 		vstr.32	s0, [r4, #8]
+  33:Core/Src/motion_control.c ****     state->current_speed += state->current_acceleration * dt;
+ 154              		.loc 1 33 5 is_stmt 1 view .LVU43
+ 155              		.loc 1 33 57 is_stmt 0 view .LVU44
+ 156 006c 20EE080A 		vmul.f32	s0, s0, s16
+ 157              	.LVL12:
+ 158              		.loc 1 33 26 view .LVU45
+ 159 0070 38EE800A 		vadd.f32	s0, s17, s0
+ 160 0074 84ED000A 		vstr.32	s0, [r4]
+  34:Core/Src/motion_control.c ****     state->current_speed = fmaxf(fminf(state->current_speed, MAX_LINEAR_SPEED), -MAX_LINEAR_SPEED);
+ 161              		.loc 1 34 5 is_stmt 1 view .LVU46
+ 162              		.loc 1 34 28 is_stmt 0 view .LVU47
+ 163 0078 F7EE000A 		vmov.f32	s1, #1.0e+0
+ 164 007c FFF7FEFF 		bl	fminf
+ 165              	.LVL13:
+ 166              		.loc 1 34 28 discriminator 1 view .LVU48
+ 167 0080 FFEE000A 		vmov.f32	s1, #-1.0e+0
+ 168 0084 FFF7FEFF 		bl	fmaxf
+ 169              	.LVL14:
+ 170              		.loc 1 34 26 discriminator 2 view .LVU49
+ 171 0088 84ED000A 		vstr.32	s0, [r4]
+  35:Core/Src/motion_control.c **** 
+  36:Core/Src/motion_control.c ****     // 2. Steering rate limitation
+  37:Core/Src/motion_control.c ****     float steering_error = state->target_steering - state->current_steering;
+ 172              		.loc 1 37 5 is_stmt 1 view .LVU50
+ 173              		.loc 1 37 33 is_stmt 0 view .LVU51
+ 174 008c 94ED040A 		vldr.32	s0, [r4, #16]
+ 175              		.loc 1 37 58 view .LVU52
+ 176 0090 D4ED038A 		vldr.32	s17, [r4, #12]
+ 177              		.loc 1 37 11 view .LVU53
+ 178 0094 30EE680A 		vsub.f32	s0, s0, s17
+ 179              	.LVL15:
+  38:Core/Src/motion_control.c ****     if (fabsf(steering_error) > STEERING_DEADBAND){
+ 180              		.loc 1 38 5 is_stmt 1 view .LVU54
+ 181              		.loc 1 38 9 is_stmt 0 view .LVU55
+ 182 0098 B0EEC07A 		vabs.f32	s14, s0
+ 183              		.loc 1 38 8 view .LVU56
+ 184 009c F0EE007A 		vmov.f32	s15, #2.0e+0
+ 185 00a0 B4EEE77A 		vcmpe.f32	s14, s15
+ 186 00a4 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 187 00a8 0FDD     		ble	.L3
+ 188              	.LBB2:
+  39:Core/Src/motion_control.c ****         float max_steering_change = STEERING_RATE * dt;
+ 189              		.loc 1 39 9 is_stmt 1 view .LVU57
+ 190              		.loc 1 39 15 is_stmt 0 view .LVU58
+ 191 00aa DFED0A7A 		vldr.32	s15, .L15
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccTJ9Ezu.s 			page 5
+
+
+ 192 00ae 28EE278A 		vmul.f32	s16, s16, s15
+ 193              	.LVL16:
+  40:Core/Src/motion_control.c ****         steering_error = fmaxf(fminf(steering_error, max_steering_change), -max_steering_change);
+ 194              		.loc 1 40 9 is_stmt 1 view .LVU59
+ 195              		.loc 1 40 26 is_stmt 0 view .LVU60
+ 196 00b2 F0EE480A 		vmov.f32	s1, s16
+ 197 00b6 FFF7FEFF 		bl	fminf
+ 198              	.LVL17:
+ 199              		.loc 1 40 26 discriminator 1 view .LVU61
+ 200 00ba F1EE480A 		vneg.f32	s1, s16
+ 201 00be FFF7FEFF 		bl	fmaxf
+ 202              	.LVL18:
+  41:Core/Src/motion_control.c ****         state->current_steering += steering_error;
+ 203              		.loc 1 41 9 is_stmt 1 view .LVU62
+ 204              		.loc 1 41 33 is_stmt 0 view .LVU63
+ 205 00c2 78EE808A 		vadd.f32	s17, s17, s0
+ 206 00c6 C4ED038A 		vstr.32	s17, [r4, #12]
+ 207              	.LVL19:
+ 208              	.L3:
+ 209              		.loc 1 41 33 view .LVU64
+ 210              	.LBE2:
+  42:Core/Src/motion_control.c ****     }
+  43:Core/Src/motion_control.c **** }
+ 211              		.loc 1 43 1 view .LVU65
+ 212 00ca BDEC028B 		vldm	sp!, {d8}
+ 213              		.cfi_restore 80
+ 214              		.cfi_restore 81
+ 215              		.cfi_def_cfa_offset 8
+ 216 00ce 10BD     		pop	{r4, pc}
+ 217              	.LVL20:
+ 218              	.L12:
+ 219              		.cfi_def_cfa_offset 0
+ 220              		.cfi_restore 4
+ 221              		.cfi_restore 14
+ 222              		.loc 1 43 1 view .LVU66
+ 223 00d0 7047     		bx	lr
+ 224              	.L16:
+ 225 00d2 00BF     		.align	2
+ 226              	.L15:
+ 227 00d4 0000B442 		.word	1119092736
+ 228              		.cfi_endproc
+ 229              	.LFE293:
+ 231              		.text
+ 232              	.Letext0:
+ 233              		.file 2 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 234              		.file 3 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 235              		.file 4 "Core/Inc/motion_control.h"
+ 236              		.file 5 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 237              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccTJ9Ezu.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 motion_control.c
+C:\Users\mathi\AppData\Local\Temp\ccTJ9Ezu.s:21     .text.InitMotionControl:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccTJ9Ezu.s:27     .text.InitMotionControl:00000000 InitMotionControl
+C:\Users\mathi\AppData\Local\Temp\ccTJ9Ezu.s:69     .text.UpdateMotionControl:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccTJ9Ezu.s:75     .text.UpdateMotionControl:00000000 UpdateMotionControl
+C:\Users\mathi\AppData\Local\Temp\ccTJ9Ezu.s:227    .text.UpdateMotionControl:000000d4 $d
+
+UNDEFINED SYMBOLS
+HAL_GetTick
+fminf
+fmaxf

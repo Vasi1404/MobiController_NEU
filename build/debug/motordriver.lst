@@ -1,0 +1,514 @@
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"motordriver.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/motordriver.c"
+  20              		.section	.text.MotorDriverInit,"ax",%progbits
+  21              		.align	1
+  22              		.global	MotorDriverInit
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	MotorDriverInit:
+  28              	.LVL0:
+  29              	.LFB292:
+   1:Core/Src/motordriver.c **** /*
+   2:Core/Src/motordriver.c ****  * ------------------------------------------------------------------------------------------------
+   3:Core/Src/motordriver.c ****  * File: motordriver.h
+   4:Core/Src/motordriver.c ****  * Created Date: Monday, July 28th 2024, 12:01:21 pm
+   5:Core/Src/motordriver.c ****  * Author: Mustafa Algan
+   6:Core/Src/motordriver.c ****  * Description: This file defines the MotorDriver functions.
+   7:Core/Src/motordriver.c ****  * ------------------------------------------------------------------------------------------------
+   8:Core/Src/motordriver.c ****  */
+   9:Core/Src/motordriver.c **** 
+  10:Core/Src/motordriver.c **** #include "motordriver.h"
+  11:Core/Src/motordriver.c **** #define PI 3.14159
+  12:Core/Src/motordriver.c **** 
+  13:Core/Src/motordriver.c **** 
+  14:Core/Src/motordriver.c **** void MotorDriverInit(motorDriver_t *motorDriver, TIM_TypeDef *TIM, TIM_HandleTypeDef *htim, uint8_t
+  15:Core/Src/motordriver.c **** {
+  30              		.loc 1 15 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 15 1 is_stmt 0 view .LVU1
+  35 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  36              		.cfi_def_cfa_offset 24
+  37              		.cfi_offset 3, -24
+  38              		.cfi_offset 4, -20
+  39              		.cfi_offset 5, -16
+  40              		.cfi_offset 6, -12
+  41              		.cfi_offset 7, -8
+  42              		.cfi_offset 14, -4
+  43 0002 0446     		mov	r4, r0
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s 			page 2
+
+
+  44 0004 1046     		mov	r0, r2
+  45              	.LVL1:
+  16:Core/Src/motordriver.c ****     motorDriver->actualVel = 0.0;
+  46              		.loc 1 16 5 is_stmt 1 view .LVU2
+  47              		.loc 1 16 28 is_stmt 0 view .LVU3
+  48 0006 0022     		movs	r2, #0
+  49              	.LVL2:
+  50              		.loc 1 16 28 view .LVU4
+  51 0008 E261     		str	r2, [r4, #28]	@ float
+  17:Core/Src/motordriver.c ****     motorDriver->direction = 0;
+  52              		.loc 1 17 5 is_stmt 1 view .LVU5
+  53              		.loc 1 17 28 is_stmt 0 view .LVU6
+  54 000a 0025     		movs	r5, #0
+  55 000c 84F82850 		strb	r5, [r4, #40]
+  18:Core/Src/motordriver.c ****     motorDriver->rpm = rpm;
+  56              		.loc 1 18 5 is_stmt 1 view .LVU7
+  57              		.loc 1 18 22 is_stmt 0 view .LVU8
+  58 0010 2375     		strb	r3, [r4, #20]
+  19:Core/Src/motordriver.c ****     motorDriver->wheelDiameter = wheelDiameter;
+  59              		.loc 1 19 5 is_stmt 1 view .LVU9
+  60              		.loc 1 19 32 is_stmt 0 view .LVU10
+  61 0012 84ED080A 		vstr.32	s0, [r4, #32]
+  20:Core/Src/motordriver.c ****     motorDriver->wheelDistance = wheelDistance;
+  62              		.loc 1 20 5 is_stmt 1 view .LVU11
+  63              		.loc 1 20 32 is_stmt 0 view .LVU12
+  64 0016 C4ED090A 		vstr.32	s1, [r4, #36]
+  21:Core/Src/motordriver.c ****     motorDriver->timMotorDriver = TIM;
+  65              		.loc 1 21 5 is_stmt 1 view .LVU13
+  66              		.loc 1 21 33 is_stmt 0 view .LVU14
+  67 001a A160     		str	r1, [r4, #8]
+  22:Core/Src/motordriver.c ****     motorDriver->htimMotorDriver = htim;
+  68              		.loc 1 22 5 is_stmt 1 view .LVU15
+  69              		.loc 1 22 34 is_stmt 0 view .LVU16
+  70 001c 6060     		str	r0, [r4, #4]
+  23:Core/Src/motordriver.c **** 
+  24:Core/Src/motordriver.c ****     HAL_TIM_PWM_Start(motorDriver->htimMotorDriver, TIM_CHANNEL_1);
+  71              		.loc 1 24 5 is_stmt 1 view .LVU17
+  72 001e 2946     		mov	r1, r5
+  73              	.LVL3:
+  74              		.loc 1 24 5 is_stmt 0 view .LVU18
+  75 0020 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+  76              	.LVL4:
+  25:Core/Src/motordriver.c ****     HAL_TIM_PWM_Start(motorDriver->htimMotorDriver, TIM_CHANNEL_2);
+  77              		.loc 1 25 5 is_stmt 1 view .LVU19
+  78 0024 0421     		movs	r1, #4
+  79 0026 6068     		ldr	r0, [r4, #4]
+  80 0028 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+  81              	.LVL5:
+  26:Core/Src/motordriver.c ****     HAL_TIM_PWM_Start(motorDriver->htimMotorDriver, TIM_CHANNEL_3);
+  82              		.loc 1 26 5 view .LVU20
+  83 002c 0821     		movs	r1, #8
+  84 002e 6068     		ldr	r0, [r4, #4]
+  85 0030 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+  86              	.LVL6:
+  27:Core/Src/motordriver.c ****     HAL_TIM_PWM_Start(motorDriver->htimMotorDriver, TIM_CHANNEL_4);
+  87              		.loc 1 27 5 view .LVU21
+  88 0034 0C21     		movs	r1, #12
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s 			page 3
+
+
+  89 0036 6068     		ldr	r0, [r4, #4]
+  90 0038 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+  91              	.LVL7:
+  28:Core/Src/motordriver.c **** 
+  29:Core/Src/motordriver.c ****     motorDriver->timMotorDriver->CCR1 = 0;
+  92              		.loc 1 29 5 view .LVU22
+  93              		.loc 1 29 16 is_stmt 0 view .LVU23
+  94 003c A368     		ldr	r3, [r4, #8]
+  95              		.loc 1 29 39 view .LVU24
+  96 003e 5D63     		str	r5, [r3, #52]
+  30:Core/Src/motordriver.c ****     motorDriver->timMotorDriver->CCR2 = 0;
+  97              		.loc 1 30 5 is_stmt 1 view .LVU25
+  98              		.loc 1 30 16 is_stmt 0 view .LVU26
+  99 0040 A368     		ldr	r3, [r4, #8]
+ 100              		.loc 1 30 39 view .LVU27
+ 101 0042 9D63     		str	r5, [r3, #56]
+  31:Core/Src/motordriver.c ****     motorDriver->timMotorDriver->CCR3 = 0;
+ 102              		.loc 1 31 5 is_stmt 1 view .LVU28
+ 103              		.loc 1 31 16 is_stmt 0 view .LVU29
+ 104 0044 A368     		ldr	r3, [r4, #8]
+ 105              		.loc 1 31 39 view .LVU30
+ 106 0046 DD63     		str	r5, [r3, #60]
+  32:Core/Src/motordriver.c ****     motorDriver->timMotorDriver->CCR4 = 0;
+ 107              		.loc 1 32 5 is_stmt 1 view .LVU31
+ 108              		.loc 1 32 16 is_stmt 0 view .LVU32
+ 109 0048 A368     		ldr	r3, [r4, #8]
+ 110              		.loc 1 32 39 view .LVU33
+ 111 004a 1D64     		str	r5, [r3, #64]
+  33:Core/Src/motordriver.c **** 
+  34:Core/Src/motordriver.c ****     motorDriver->maxVel = PI * motorDriver->wheelDiameter * motorDriver->rpm / 60.0;
+ 112              		.loc 1 34 5 is_stmt 1 view .LVU34
+ 113              		.loc 1 34 43 is_stmt 0 view .LVU35
+ 114 004c 206A     		ldr	r0, [r4, #32]	@ float
+ 115 004e FFF7FEFF 		bl	__aeabi_f2d
+ 116              	.LVL8:
+ 117              		.loc 1 34 30 view .LVU36
+ 118 0052 0CA3     		adr	r3, .L3+4
+ 119 0054 D3E90023 		ldrd	r2, [r3]
+ 120 0058 FFF7FEFF 		bl	__aeabi_dmul
+ 121              	.LVL9:
+ 122 005c 0646     		mov	r6, r0
+ 123 005e 0F46     		mov	r7, r1
+ 124              		.loc 1 34 59 view .LVU37
+ 125 0060 207D     		ldrb	r0, [r4, #20]	@ zero_extendqisi2
+ 126 0062 FFF7FEFF 		bl	__aeabi_i2d
+ 127              	.LVL10:
+ 128 0066 3246     		mov	r2, r6
+ 129 0068 3B46     		mov	r3, r7
+ 130 006a FFF7FEFF 		bl	__aeabi_dmul
+ 131              	.LVL11:
+ 132              		.loc 1 34 78 view .LVU38
+ 133 006e 0022     		movs	r2, #0
+ 134 0070 034B     		ldr	r3, .L3
+ 135 0072 FFF7FEFF 		bl	__aeabi_ddiv
+ 136              	.LVL12:
+ 137 0076 FFF7FEFF 		bl	__aeabi_d2f
+ 138              	.LVL13:
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s 			page 4
+
+
+ 139              		.loc 1 34 25 view .LVU39
+ 140 007a A061     		str	r0, [r4, #24]	@ float
+  35:Core/Src/motordriver.c **** 
+  36:Core/Src/motordriver.c **** }
+ 141              		.loc 1 36 1 view .LVU40
+ 142 007c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 143              	.LVL14:
+ 144              	.L4:
+ 145              		.loc 1 36 1 view .LVU41
+ 146 007e 00BF     		.align	3
+ 147              	.L3:
+ 148 0080 00004E40 		.word	1078853632
+ 149 0084 6E861BF0 		.word	-266631570
+ 150 0088 F9210940 		.word	1074340345
+ 151              		.cfi_endproc
+ 152              	.LFE292:
+ 154              		.section	.text.MotorDriverVelocity,"ax",%progbits
+ 155              		.align	1
+ 156              		.global	MotorDriverVelocity
+ 157              		.syntax unified
+ 158              		.thumb
+ 159              		.thumb_func
+ 161              	MotorDriverVelocity:
+ 162              	.LVL15:
+ 163              	.LFB293:
+  37:Core/Src/motordriver.c **** 
+  38:Core/Src/motordriver.c **** 
+  39:Core/Src/motordriver.c **** 
+  40:Core/Src/motordriver.c **** void MotorDriverVelocity(motorDriver_t *motorDriver, float linearX, float angularZ)
+  41:Core/Src/motordriver.c **** {   
+ 164              		.loc 1 41 1 is_stmt 1 view -0
+ 165              		.cfi_startproc
+ 166              		@ args = 0, pretend = 0, frame = 0
+ 167              		@ frame_needed = 0, uses_anonymous_args = 0
+ 168              		@ link register save eliminated.
+  42:Core/Src/motordriver.c ****     if (linearX > 200)
+ 169              		.loc 1 42 5 view .LVU43
+ 170              		.loc 1 42 8 is_stmt 0 view .LVU44
+ 171 0000 DFED287A 		vldr.32	s15, .L18
+ 172 0004 B4EEE70A 		vcmpe.f32	s0, s15
+ 173 0008 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 174 000c 01DD     		ble	.L6
+  43:Core/Src/motordriver.c ****     {
+  44:Core/Src/motordriver.c ****         linearX = 200;
+ 175              		.loc 1 44 17 view .LVU45
+ 176 000e B0EE670A 		vmov.f32	s0, s15
+ 177              	.LVL16:
+ 178              	.L6:
+  45:Core/Src/motordriver.c ****     }
+  46:Core/Src/motordriver.c **** 
+  47:Core/Src/motordriver.c ****     float vLeft = linearX - (angularZ * motorDriver->wheelDistance /2);
+ 179              		.loc 1 47 5 is_stmt 1 view .LVU46
+ 180              		.loc 1 47 52 is_stmt 0 view .LVU47
+ 181 0012 D0ED097A 		vldr.32	s15, [r0, #36]
+ 182              		.loc 1 47 39 view .LVU48
+ 183 0016 67EEA07A 		vmul.f32	s15, s15, s1
+ 184              		.loc 1 47 68 view .LVU49
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s 			page 5
+
+
+ 185 001a B6EE007A 		vmov.f32	s14, #5.0e-1
+ 186 001e 67EE877A 		vmul.f32	s15, s15, s14
+ 187              		.loc 1 47 11 view .LVU50
+ 188 0022 70EE676A 		vsub.f32	s13, s0, s15
+ 189              	.LVL17:
+  48:Core/Src/motordriver.c ****     float vRight = linearX + (angularZ * motorDriver->wheelDistance /2);
+ 190              		.loc 1 48 5 is_stmt 1 view .LVU51
+ 191              		.loc 1 48 11 is_stmt 0 view .LVU52
+ 192 0026 37EE800A 		vadd.f32	s0, s15, s0
+ 193              	.LVL18:
+  49:Core/Src/motordriver.c **** 
+  50:Core/Src/motordriver.c ****     float leftPWM = (vLeft / motorDriver->maxVel) * 100.0f;
+ 194              		.loc 1 50 5 is_stmt 1 view .LVU53
+ 195              		.loc 1 50 41 is_stmt 0 view .LVU54
+ 196 002a D0ED065A 		vldr.32	s11, [r0, #24]
+ 197              		.loc 1 50 28 view .LVU55
+ 198 002e 86EEA57A 		vdiv.f32	s14, s13, s11
+ 199              		.loc 1 50 11 view .LVU56
+ 200 0032 9FED1D6A 		vldr.32	s12, .L18+4
+ 201 0036 27EE067A 		vmul.f32	s14, s14, s12
+ 202              	.LVL19:
+  51:Core/Src/motordriver.c ****     float rightPWM = (vRight / motorDriver->maxVel) * 100.0f;
+ 203              		.loc 1 51 5 is_stmt 1 view .LVU57
+ 204              		.loc 1 51 30 is_stmt 0 view .LVU58
+ 205 003a C0EE257A 		vdiv.f32	s15, s0, s11
+ 206              		.loc 1 51 11 view .LVU59
+ 207 003e 67EE867A 		vmul.f32	s15, s15, s12
+ 208              	.LVL20:
+  52:Core/Src/motordriver.c **** 
+  53:Core/Src/motordriver.c ****     if (vLeft >= 0)
+ 209              		.loc 1 53 5 is_stmt 1 view .LVU60
+ 210              		.loc 1 53 8 is_stmt 0 view .LVU61
+ 211 0042 F5EEC06A 		vcmpe.f32	s13, #0
+ 212 0046 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 213 004a 15DB     		blt	.L16
+  54:Core/Src/motordriver.c ****     {
+  55:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR2 = 0;
+ 214              		.loc 1 55 9 is_stmt 1 view .LVU62
+ 215              		.loc 1 55 20 is_stmt 0 view .LVU63
+ 216 004c 8368     		ldr	r3, [r0, #8]
+ 217              		.loc 1 55 43 view .LVU64
+ 218 004e 0022     		movs	r2, #0
+ 219 0050 9A63     		str	r2, [r3, #56]
+  56:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR1 = leftPWM;
+ 220              		.loc 1 56 9 is_stmt 1 view .LVU65
+ 221              		.loc 1 56 20 is_stmt 0 view .LVU66
+ 222 0052 8368     		ldr	r3, [r0, #8]
+ 223              		.loc 1 56 43 view .LVU67
+ 224 0054 BCEEC77A 		vcvt.u32.f32	s14, s14
+ 225              	.LVL21:
+ 226              		.loc 1 56 43 view .LVU68
+ 227 0058 83ED0D7A 		vstr.32	s14, [r3, #52]	@ int
+ 228              	.L9:
+  57:Core/Src/motordriver.c ****         
+  58:Core/Src/motordriver.c ****     }   
+  59:Core/Src/motordriver.c ****     else 
+  60:Core/Src/motordriver.c ****     {
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s 			page 6
+
+
+  61:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR2 = leftPWM*-1;
+  62:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR1 = 0;
+  63:Core/Src/motordriver.c ****     }
+  64:Core/Src/motordriver.c **** 
+  65:Core/Src/motordriver.c ****     if (vRight >= 0)
+ 229              		.loc 1 65 5 is_stmt 1 view .LVU69
+ 230              		.loc 1 65 8 is_stmt 0 view .LVU70
+ 231 005c B5EEC00A 		vcmpe.f32	s0, #0
+ 232 0060 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 233 0064 13DB     		blt	.L17
+  66:Core/Src/motordriver.c ****     {
+  67:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR3 = 0;
+ 234              		.loc 1 67 9 is_stmt 1 view .LVU71
+ 235              		.loc 1 67 20 is_stmt 0 view .LVU72
+ 236 0066 8368     		ldr	r3, [r0, #8]
+ 237              		.loc 1 67 43 view .LVU73
+ 238 0068 0022     		movs	r2, #0
+ 239 006a DA63     		str	r2, [r3, #60]
+  68:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR4 = rightPWM;        
+ 240              		.loc 1 68 9 is_stmt 1 view .LVU74
+ 241              		.loc 1 68 20 is_stmt 0 view .LVU75
+ 242 006c 8368     		ldr	r3, [r0, #8]
+ 243              		.loc 1 68 43 view .LVU76
+ 244 006e FCEEE77A 		vcvt.u32.f32	s15, s15
+ 245              	.LVL22:
+ 246              		.loc 1 68 43 view .LVU77
+ 247 0072 C3ED107A 		vstr.32	s15, [r3, #64]	@ int
+ 248 0076 7047     		bx	lr
+ 249              	.LVL23:
+ 250              	.L16:
+  61:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR1 = 0;
+ 251              		.loc 1 61 9 is_stmt 1 view .LVU78
+  61:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR1 = 0;
+ 252              		.loc 1 61 52 is_stmt 0 view .LVU79
+ 253 0078 B1EE477A 		vneg.f32	s14, s14
+ 254              	.LVL24:
+  61:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR1 = 0;
+ 255              		.loc 1 61 20 view .LVU80
+ 256 007c 8368     		ldr	r3, [r0, #8]
+  61:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR1 = 0;
+ 257              		.loc 1 61 43 view .LVU81
+ 258 007e BCEEC77A 		vcvt.u32.f32	s14, s14
+ 259 0082 83ED0E7A 		vstr.32	s14, [r3, #56]	@ int
+  62:Core/Src/motordriver.c ****     }
+ 260              		.loc 1 62 9 is_stmt 1 view .LVU82
+  62:Core/Src/motordriver.c ****     }
+ 261              		.loc 1 62 20 is_stmt 0 view .LVU83
+ 262 0086 8368     		ldr	r3, [r0, #8]
+  62:Core/Src/motordriver.c ****     }
+ 263              		.loc 1 62 43 view .LVU84
+ 264 0088 0022     		movs	r2, #0
+ 265 008a 5A63     		str	r2, [r3, #52]
+ 266 008c E6E7     		b	.L9
+ 267              	.L17:
+  69:Core/Src/motordriver.c ****     }   
+  70:Core/Src/motordriver.c ****     else 
+  71:Core/Src/motordriver.c ****     {
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s 			page 7
+
+
+  72:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR3 = rightPWM*-1;
+ 268              		.loc 1 72 9 is_stmt 1 view .LVU85
+ 269              		.loc 1 72 53 is_stmt 0 view .LVU86
+ 270 008e F1EE677A 		vneg.f32	s15, s15
+ 271              	.LVL25:
+ 272              		.loc 1 72 20 view .LVU87
+ 273 0092 8368     		ldr	r3, [r0, #8]
+ 274              		.loc 1 72 43 view .LVU88
+ 275 0094 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 276 0098 C3ED0F7A 		vstr.32	s15, [r3, #60]	@ int
+  73:Core/Src/motordriver.c ****         motorDriver->timMotorDriver->CCR4 = 0;
+ 277              		.loc 1 73 9 is_stmt 1 view .LVU89
+ 278              		.loc 1 73 20 is_stmt 0 view .LVU90
+ 279 009c 8368     		ldr	r3, [r0, #8]
+ 280              		.loc 1 73 43 view .LVU91
+ 281 009e 0022     		movs	r2, #0
+ 282 00a0 1A64     		str	r2, [r3, #64]
+  74:Core/Src/motordriver.c ****     }
+  75:Core/Src/motordriver.c ****     
+  76:Core/Src/motordriver.c **** }
+ 283              		.loc 1 76 1 view .LVU92
+ 284 00a2 7047     		bx	lr
+ 285              	.L19:
+ 286              		.align	2
+ 287              	.L18:
+ 288 00a4 00004843 		.word	1128792064
+ 289 00a8 0000C842 		.word	1120403456
+ 290              		.cfi_endproc
+ 291              	.LFE293:
+ 293              		.section	.text.EncoderInit,"ax",%progbits
+ 294              		.align	1
+ 295              		.global	EncoderInit
+ 296              		.syntax unified
+ 297              		.thumb
+ 298              		.thumb_func
+ 300              	EncoderInit:
+ 301              	.LVL26:
+ 302              	.LFB294:
+  77:Core/Src/motordriver.c **** 
+  78:Core/Src/motordriver.c **** void EncoderInit(motorDriver_t *motorDriver, TIM_HandleTypeDef *htim, uint32_t channel){
+ 303              		.loc 1 78 88 is_stmt 1 view -0
+ 304              		.cfi_startproc
+ 305              		@ args = 0, pretend = 0, frame = 0
+ 306              		@ frame_needed = 0, uses_anonymous_args = 0
+ 307              		.loc 1 78 88 is_stmt 0 view .LVU94
+ 308 0000 08B5     		push	{r3, lr}
+ 309              		.cfi_def_cfa_offset 8
+ 310              		.cfi_offset 3, -8
+ 311              		.cfi_offset 14, -4
+ 312 0002 0346     		mov	r3, r0
+ 313 0004 0846     		mov	r0, r1
+ 314              	.LVL27:
+ 315              		.loc 1 78 88 view .LVU95
+ 316 0006 1146     		mov	r1, r2
+ 317              	.LVL28:
+  79:Core/Src/motordriver.c ****   motorDriver->htimEncoder = htim;
+ 318              		.loc 1 79 3 is_stmt 1 view .LVU96
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s 			page 8
+
+
+ 319              		.loc 1 79 28 is_stmt 0 view .LVU97
+ 320 0008 1860     		str	r0, [r3]
+  80:Core/Src/motordriver.c ****   motorDriver->channelEncoder = channel;
+ 321              		.loc 1 80 3 is_stmt 1 view .LVU98
+ 322              		.loc 1 80 31 is_stmt 0 view .LVU99
+ 323 000a DA60     		str	r2, [r3, #12]
+  81:Core/Src/motordriver.c ****   motorDriver->counterEncoder = 0; 
+ 324              		.loc 1 81 3 is_stmt 1 view .LVU100
+ 325              		.loc 1 81 31 is_stmt 0 view .LVU101
+ 326 000c 0022     		movs	r2, #0
+ 327              	.LVL29:
+ 328              		.loc 1 81 31 view .LVU102
+ 329 000e 1A61     		str	r2, [r3, #16]
+  82:Core/Src/motordriver.c **** 
+  83:Core/Src/motordriver.c ****   HAL_TIM_Encoder_Start(motorDriver->htimEncoder, motorDriver->channelEncoder);
+ 330              		.loc 1 83 3 is_stmt 1 view .LVU103
+ 331 0010 FFF7FEFF 		bl	HAL_TIM_Encoder_Start
+ 332              	.LVL30:
+  84:Core/Src/motordriver.c **** }
+ 333              		.loc 1 84 1 is_stmt 0 view .LVU104
+ 334 0014 08BD     		pop	{r3, pc}
+ 335              		.cfi_endproc
+ 336              	.LFE294:
+ 338              		.section	.text.EncoderCallback,"ax",%progbits
+ 339              		.align	1
+ 340              		.global	EncoderCallback
+ 341              		.syntax unified
+ 342              		.thumb
+ 343              		.thumb_func
+ 345              	EncoderCallback:
+ 346              	.LVL31:
+ 347              	.LFB295:
+  85:Core/Src/motordriver.c **** 
+  86:Core/Src/motordriver.c **** void EncoderCallback(motorDriver_t *motorDriver) {
+ 348              		.loc 1 86 50 is_stmt 1 view -0
+ 349              		.cfi_startproc
+ 350              		@ args = 0, pretend = 0, frame = 0
+ 351              		@ frame_needed = 0, uses_anonymous_args = 0
+ 352              		@ link register save eliminated.
+  87:Core/Src/motordriver.c ****   // Get the state of the B pin
+  88:Core/Src/motordriver.c ****   
+  89:Core/Src/motordriver.c ****   motorDriver->counterEncoder = __HAL_TIM_GET_COUNTER(motorDriver->htimEncoder);
+ 353              		.loc 1 89 3 view .LVU106
+ 354              		.loc 1 89 33 is_stmt 0 view .LVU107
+ 355 0000 0368     		ldr	r3, [r0]
+ 356 0002 1B68     		ldr	r3, [r3]
+ 357 0004 5B6A     		ldr	r3, [r3, #36]
+ 358              		.loc 1 89 31 view .LVU108
+ 359 0006 0361     		str	r3, [r0, #16]
+  90:Core/Src/motordriver.c ****   
+  91:Core/Src/motordriver.c **** }...
+ 360              		.loc 1 91 1 view .LVU109
+ 361 0008 7047     		bx	lr
+ 362              		.cfi_endproc
+ 363              	.LFE295:
+ 365              		.text
+ 366              	.Letext0:
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s 			page 9
+
+
+ 367              		.file 2 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 368              		.file 3 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 369              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h"
+ 370              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 371              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 372              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 373              		.file 8 "Core/Inc/motordriver.h"
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 motordriver.c
+C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s:21     .text.MotorDriverInit:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s:27     .text.MotorDriverInit:00000000 MotorDriverInit
+C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s:148    .text.MotorDriverInit:00000080 $d
+C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s:155    .text.MotorDriverVelocity:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s:161    .text.MotorDriverVelocity:00000000 MotorDriverVelocity
+C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s:288    .text.MotorDriverVelocity:000000a4 $d
+C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s:294    .text.EncoderInit:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s:300    .text.EncoderInit:00000000 EncoderInit
+C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s:339    .text.EncoderCallback:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccA0dufs.s:345    .text.EncoderCallback:00000000 EncoderCallback
+
+UNDEFINED SYMBOLS
+HAL_TIM_PWM_Start
+__aeabi_f2d
+__aeabi_dmul
+__aeabi_i2d
+__aeabi_ddiv
+__aeabi_d2f
+HAL_TIM_Encoder_Start

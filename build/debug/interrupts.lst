@@ -1,0 +1,387 @@
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"interrupts.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/interrupts.c"
+  20              		.section	.text.HAL_I2C_MasterTxCpltCallback,"ax",%progbits
+  21              		.align	1
+  22              		.global	HAL_I2C_MasterTxCpltCallback
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	HAL_I2C_MasterTxCpltCallback:
+  28              	.LVL0:
+  29              	.LFB292:
+   1:Core/Src/interrupts.c **** /*
+   2:Core/Src/interrupts.c ****  * ------------------------------------------------------------------------------------------------
+   3:Core/Src/interrupts.c ****  * File: interrupts.c
+   4:Core/Src/interrupts.c ****  * Created Date: Monday, March 4th 2024, 12:35:40 pm
+   5:Core/Src/interrupts.c ****  * Author: Florian Hye
+   6:Core/Src/interrupts.c ****  * Description: This file has all interrupt hanlders for this firmware.
+   7:Core/Src/interrupts.c ****  * ------------------------------------------------------------------------------------------------
+   8:Core/Src/interrupts.c ****  */
+   9:Core/Src/interrupts.c **** 
+  10:Core/Src/interrupts.c **** #include "encoder.h"
+  11:Core/Src/interrupts.c **** #include "hcsr04.h"
+  12:Core/Src/interrupts.c **** #include "i2c.h"
+  13:Core/Src/interrupts.c **** #include "main.h"
+  14:Core/Src/interrupts.c **** //#include "pozyx.h"
+  15:Core/Src/interrupts.c **** #include "stm32l4xx.h"
+  16:Core/Src/interrupts.c **** 
+  17:Core/Src/interrupts.c **** /*
+  18:Core/Src/interrupts.c ****  * I2C interrupts
+  19:Core/Src/interrupts.c ****  */
+  20:Core/Src/interrupts.c **** 
+  21:Core/Src/interrupts.c **** void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c) {
+  30              		.loc 1 21 60 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  22:Core/Src/interrupts.c ****   // TX Done .. Do Something!
+  23:Core/Src/interrupts.c **** }
+  35              		.loc 1 23 1 view .LVU1
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s 			page 2
+
+
+  36 0000 7047     		bx	lr
+  37              		.cfi_endproc
+  38              	.LFE292:
+  40              		.section	.text.HAL_GPIO_EXTI_Callback,"ax",%progbits
+  41              		.align	1
+  42              		.global	HAL_GPIO_EXTI_Callback
+  43              		.syntax unified
+  44              		.thumb
+  45              		.thumb_func
+  47              	HAL_GPIO_EXTI_Callback:
+  48              	.LVL1:
+  49              	.LFB293:
+  24:Core/Src/interrupts.c **** 
+  25:Core/Src/interrupts.c **** /*void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c) {
+  26:Core/Src/interrupts.c ****   if (hi2c == imu.i2c_handle) {
+  27:Core/Src/interrupts.c ****     bno055_read_DMA_complete(&imu);
+  28:Core/Src/interrupts.c ****   }
+  29:Core/Src/interrupts.c **** }*/
+  30:Core/Src/interrupts.c **** 
+  31:Core/Src/interrupts.c **** /*void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c) {
+  32:Core/Src/interrupts.c ****   if (hi2c == pozyx.hi2c) {
+  33:Core/Src/interrupts.c ****     pozyx_read_DMA_complete(&pozyx);
+  34:Core/Src/interrupts.c ****   }
+  35:Core/Src/interrupts.c **** }*/
+  36:Core/Src/interrupts.c **** 
+  37:Core/Src/interrupts.c **** /*
+  38:Core/Src/interrupts.c ****  * GPIO external interrupt
+  39:Core/Src/interrupts.c ****  */
+  40:Core/Src/interrupts.c **** 
+  41:Core/Src/interrupts.c **** void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+  50              		.loc 1 41 48 view -0
+  51              		.cfi_startproc
+  52              		@ args = 0, pretend = 0, frame = 0
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54              		.loc 1 41 48 is_stmt 0 view .LVU3
+  55 0000 08B5     		push	{r3, lr}
+  56              		.cfi_def_cfa_offset 8
+  57              		.cfi_offset 3, -8
+  58              		.cfi_offset 14, -4
+  42:Core/Src/interrupts.c **** 
+  43:Core/Src/interrupts.c ****   // Handle encoder ext interrupts
+  44:Core/Src/interrupts.c ****   if (GPIO_Pin == encoder_1.gpio_a_pin) {
+  59              		.loc 1 44 3 is_stmt 1 view .LVU4
+  60              		.loc 1 44 28 is_stmt 0 view .LVU5
+  61 0002 084B     		ldr	r3, .L8
+  62 0004 9B88     		ldrh	r3, [r3, #4]
+  63              		.loc 1 44 6 view .LVU6
+  64 0006 8342     		cmp	r3, r0
+  65 0008 04D0     		beq	.L6
+  45:Core/Src/interrupts.c ****     encoder_handle_interrupt(&encoder_1);
+  46:Core/Src/interrupts.c ****   } else if (GPIO_Pin == encoder_2.gpio_a_pin) {
+  66              		.loc 1 46 10 is_stmt 1 view .LVU7
+  67              		.loc 1 46 35 is_stmt 0 view .LVU8
+  68 000a 074B     		ldr	r3, .L8+4
+  69 000c 9B88     		ldrh	r3, [r3, #4]
+  70              		.loc 1 46 13 view .LVU9
+  71 000e 8342     		cmp	r3, r0
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s 			page 3
+
+
+  72 0010 04D0     		beq	.L7
+  73              	.LVL2:
+  74              	.L2:
+  47:Core/Src/interrupts.c ****     encoder_handle_interrupt(&encoder_2);
+  48:Core/Src/interrupts.c ****   } 
+  49:Core/Src/interrupts.c **** }
+  75              		.loc 1 49 1 view .LVU10
+  76 0012 08BD     		pop	{r3, pc}
+  77              	.LVL3:
+  78              	.L6:
+  45:Core/Src/interrupts.c ****     encoder_handle_interrupt(&encoder_1);
+  79              		.loc 1 45 5 is_stmt 1 view .LVU11
+  80 0014 0348     		ldr	r0, .L8
+  81              	.LVL4:
+  45:Core/Src/interrupts.c ****     encoder_handle_interrupt(&encoder_1);
+  82              		.loc 1 45 5 is_stmt 0 view .LVU12
+  83 0016 FFF7FEFF 		bl	encoder_handle_interrupt
+  84              	.LVL5:
+  85 001a FAE7     		b	.L2
+  86              	.LVL6:
+  87              	.L7:
+  47:Core/Src/interrupts.c ****     encoder_handle_interrupt(&encoder_2);
+  88              		.loc 1 47 5 is_stmt 1 view .LVU13
+  89 001c 0248     		ldr	r0, .L8+4
+  90              	.LVL7:
+  47:Core/Src/interrupts.c ****     encoder_handle_interrupt(&encoder_2);
+  91              		.loc 1 47 5 is_stmt 0 view .LVU14
+  92 001e FFF7FEFF 		bl	encoder_handle_interrupt
+  93              	.LVL8:
+  94              		.loc 1 49 1 view .LVU15
+  95 0022 F6E7     		b	.L2
+  96              	.L9:
+  97              		.align	2
+  98              	.L8:
+  99 0024 00000000 		.word	encoder_1
+ 100 0028 00000000 		.word	encoder_2
+ 101              		.cfi_endproc
+ 102              	.LFE293:
+ 104              		.section	.text.HAL_TIM_IC_CaptureCallback,"ax",%progbits
+ 105              		.align	1
+ 106              		.global	HAL_TIM_IC_CaptureCallback
+ 107              		.syntax unified
+ 108              		.thumb
+ 109              		.thumb_func
+ 111              	HAL_TIM_IC_CaptureCallback:
+ 112              	.LVL9:
+ 113              	.LFB294:
+  50:Core/Src/interrupts.c **** 
+  51:Core/Src/interrupts.c **** /*
+  52:Core/Src/interrupts.c ****  * ADC
+  53:Core/Src/interrupts.c ****  */
+  54:Core/Src/interrupts.c **** 
+  55:Core/Src/interrupts.c **** /*void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
+  56:Core/Src/interrupts.c ****   // Conversion Complete & DMA Transfer Complete As Well
+  57:Core/Src/interrupts.c ****   if (hadc != pwr_manager.adc)
+  58:Core/Src/interrupts.c ****     return;
+  59:Core/Src/interrupts.c **** 
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s 			page 4
+
+
+  60:Core/Src/interrupts.c ****   pwr_manager.battery_voltage =
+  61:Core/Src/interrupts.c ****     __LL_ADC_CALC_DATA_TO_VOLTAGE(3300UL, pwr_manager.adc_res, LL_ADC_RESOLUTION_12B) * (14 / 3.3) 
+  62:Core/Src/interrupts.c **** 
+  63:Core/Src/interrupts.c ****   pwr_manager.charge_percentage =
+  64:Core/Src/interrupts.c ****     1 / (BAT_MAX_VOLTAGE - BAT_MIN_VOLTAGE) * (pwr_manager.battery_voltage - BAT_MIN_VOLTAGE);
+  65:Core/Src/interrupts.c **** }*/
+  66:Core/Src/interrupts.c **** 
+  67:Core/Src/interrupts.c **** /*
+  68:Core/Src/interrupts.c ****  *  Timer overflow
+  69:Core/Src/interrupts.c ****  * The bellow function is defined in main.c
+  70:Core/Src/interrupts.c ****  */
+  71:Core/Src/interrupts.c **** 
+  72:Core/Src/interrupts.c **** // void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {}
+  73:Core/Src/interrupts.c **** 
+  74:Core/Src/interrupts.c **** /*
+  75:Core/Src/interrupts.c ****  * Input Capture Callback
+  76:Core/Src/interrupts.c ****  */
+  77:Core/Src/interrupts.c **** void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
+ 114              		.loc 1 77 58 is_stmt 1 view -0
+ 115              		.cfi_startproc
+ 116              		@ args = 0, pretend = 0, frame = 0
+ 117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118              		.loc 1 77 58 is_stmt 0 view .LVU17
+ 119 0000 08B5     		push	{r3, lr}
+ 120              		.cfi_def_cfa_offset 8
+ 121              		.cfi_offset 3, -8
+ 122              		.cfi_offset 14, -4
+  78:Core/Src/interrupts.c ****   if (htim->Channel == ultra_1.active_channel && htim == ultra_1.htim) { // US 1
+ 123              		.loc 1 78 3 is_stmt 1 view .LVU18
+ 124              		.loc 1 78 11 is_stmt 0 view .LVU19
+ 125 0002 027F     		ldrb	r2, [r0, #28]	@ zero_extendqisi2
+ 126              		.loc 1 78 31 view .LVU20
+ 127 0004 184B     		ldr	r3, .L20
+ 128 0006 9B79     		ldrb	r3, [r3, #6]	@ zero_extendqisi2
+ 129              		.loc 1 78 6 view .LVU21
+ 130 0008 9A42     		cmp	r2, r3
+ 131 000a 0CD0     		beq	.L16
+ 132              	.L11:
+  79:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_1);
+  80:Core/Src/interrupts.c ****   } else if (htim->Channel == ultra_2.active_channel && htim == ultra_2.htim) { // US 2
+ 133              		.loc 1 80 10 is_stmt 1 view .LVU22
+ 134              		.loc 1 80 38 is_stmt 0 view .LVU23
+ 135 000c 174B     		ldr	r3, .L20+4
+ 136 000e 9B79     		ldrb	r3, [r3, #6]	@ zero_extendqisi2
+ 137              		.loc 1 80 13 view .LVU24
+ 138 0010 9A42     		cmp	r2, r3
+ 139 0012 10D0     		beq	.L17
+ 140              	.L13:
+  81:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_2);
+  82:Core/Src/interrupts.c ****   } else if (htim->Channel == ultra_3.active_channel && htim == ultra_3.htim) { // US 3
+ 141              		.loc 1 82 10 is_stmt 1 view .LVU25
+ 142              		.loc 1 82 38 is_stmt 0 view .LVU26
+ 143 0014 164B     		ldr	r3, .L20+8
+ 144 0016 9B79     		ldrb	r3, [r3, #6]	@ zero_extendqisi2
+ 145              		.loc 1 82 13 view .LVU27
+ 146 0018 9A42     		cmp	r2, r3
+ 147 001a 14D0     		beq	.L18
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s 			page 5
+
+
+ 148              	.L14:
+  83:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_3);
+  84:Core/Src/interrupts.c ****   } else if (htim->Channel == ultra_4.active_channel && htim == ultra_4.htim) { // US 4
+ 149              		.loc 1 84 10 is_stmt 1 view .LVU28
+ 150              		.loc 1 84 38 is_stmt 0 view .LVU29
+ 151 001c 154B     		ldr	r3, .L20+12
+ 152 001e 9B79     		ldrb	r3, [r3, #6]	@ zero_extendqisi2
+ 153              		.loc 1 84 13 view .LVU30
+ 154 0020 9A42     		cmp	r2, r3
+ 155 0022 18D0     		beq	.L19
+ 156              	.LVL10:
+ 157              	.L10:
+  85:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_4);
+  86:Core/Src/interrupts.c ****   }
+  87:Core/Src/interrupts.c **** }...
+ 158              		.loc 1 87 1 view .LVU31
+ 159 0024 08BD     		pop	{r3, pc}
+ 160              	.LVL11:
+ 161              	.L16:
+  78:Core/Src/interrupts.c ****   if (htim->Channel == ultra_1.active_channel && htim == ultra_1.htim) { // US 1
+ 162              		.loc 1 78 65 discriminator 1 view .LVU32
+ 163 0026 104B     		ldr	r3, .L20
+ 164 0028 1B68     		ldr	r3, [r3]
+  78:Core/Src/interrupts.c ****   if (htim->Channel == ultra_1.active_channel && htim == ultra_1.htim) { // US 1
+ 165              		.loc 1 78 47 discriminator 1 view .LVU33
+ 166 002a 8342     		cmp	r3, r0
+ 167 002c EED1     		bne	.L11
+  79:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_1);
+ 168              		.loc 1 79 5 is_stmt 1 view .LVU34
+ 169 002e 0E48     		ldr	r0, .L20
+ 170              	.LVL12:
+  79:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_1);
+ 171              		.loc 1 79 5 is_stmt 0 view .LVU35
+ 172 0030 FFF7FEFF 		bl	hcsr04_handle_capture_complete
+ 173              	.LVL13:
+ 174 0034 F6E7     		b	.L10
+ 175              	.LVL14:
+ 176              	.L17:
+  80:Core/Src/interrupts.c ****   } else if (htim->Channel == ultra_2.active_channel && htim == ultra_2.htim) { // US 2
+ 177              		.loc 1 80 72 discriminator 1 view .LVU36
+ 178 0036 0D4B     		ldr	r3, .L20+4
+ 179 0038 1B68     		ldr	r3, [r3]
+  80:Core/Src/interrupts.c ****   } else if (htim->Channel == ultra_2.active_channel && htim == ultra_2.htim) { // US 2
+ 180              		.loc 1 80 54 discriminator 1 view .LVU37
+ 181 003a 8342     		cmp	r3, r0
+ 182 003c EAD1     		bne	.L13
+  81:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_2);
+ 183              		.loc 1 81 5 is_stmt 1 view .LVU38
+ 184 003e 0B48     		ldr	r0, .L20+4
+ 185              	.LVL15:
+  81:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_2);
+ 186              		.loc 1 81 5 is_stmt 0 view .LVU39
+ 187 0040 FFF7FEFF 		bl	hcsr04_handle_capture_complete
+ 188              	.LVL16:
+ 189 0044 EEE7     		b	.L10
+ 190              	.LVL17:
+ 191              	.L18:
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s 			page 6
+
+
+  82:Core/Src/interrupts.c ****   } else if (htim->Channel == ultra_3.active_channel && htim == ultra_3.htim) { // US 3
+ 192              		.loc 1 82 72 discriminator 1 view .LVU40
+ 193 0046 0A4B     		ldr	r3, .L20+8
+ 194 0048 1B68     		ldr	r3, [r3]
+  82:Core/Src/interrupts.c ****   } else if (htim->Channel == ultra_3.active_channel && htim == ultra_3.htim) { // US 3
+ 195              		.loc 1 82 54 discriminator 1 view .LVU41
+ 196 004a 8342     		cmp	r3, r0
+ 197 004c E6D1     		bne	.L14
+  83:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_3);
+ 198              		.loc 1 83 5 is_stmt 1 view .LVU42
+ 199 004e 0848     		ldr	r0, .L20+8
+ 200              	.LVL18:
+  83:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_3);
+ 201              		.loc 1 83 5 is_stmt 0 view .LVU43
+ 202 0050 FFF7FEFF 		bl	hcsr04_handle_capture_complete
+ 203              	.LVL19:
+ 204 0054 E6E7     		b	.L10
+ 205              	.LVL20:
+ 206              	.L19:
+  84:Core/Src/interrupts.c ****   } else if (htim->Channel == ultra_4.active_channel && htim == ultra_4.htim) { // US 4
+ 207              		.loc 1 84 72 discriminator 1 view .LVU44
+ 208 0056 074B     		ldr	r3, .L20+12
+ 209 0058 1B68     		ldr	r3, [r3]
+  84:Core/Src/interrupts.c ****   } else if (htim->Channel == ultra_4.active_channel && htim == ultra_4.htim) { // US 4
+ 210              		.loc 1 84 54 discriminator 1 view .LVU45
+ 211 005a 8342     		cmp	r3, r0
+ 212 005c E2D1     		bne	.L10
+  85:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_4);
+ 213              		.loc 1 85 5 is_stmt 1 view .LVU46
+ 214 005e 0548     		ldr	r0, .L20+12
+ 215              	.LVL21:
+  85:Core/Src/interrupts.c ****     hcsr04_handle_capture_complete(&ultra_4);
+ 216              		.loc 1 85 5 is_stmt 0 view .LVU47
+ 217 0060 FFF7FEFF 		bl	hcsr04_handle_capture_complete
+ 218              	.LVL22:
+ 219              		.loc 1 87 1 view .LVU48
+ 220 0064 DEE7     		b	.L10
+ 221              	.L21:
+ 222 0066 00BF     		.align	2
+ 223              	.L20:
+ 224 0068 00000000 		.word	ultra_1
+ 225 006c 00000000 		.word	ultra_2
+ 226 0070 00000000 		.word	ultra_3
+ 227 0074 00000000 		.word	ultra_4
+ 228              		.cfi_endproc
+ 229              	.LFE294:
+ 231              		.text
+ 232              	.Letext0:
+ 233              		.file 2 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 234              		.file 3 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 235              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h"
+ 236              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 237              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 238              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 239              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 240              		.file 9 "Core/Inc/encoder.h"
+ 241              		.file 10 "Core/Inc/hcsr04.h"
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s 			page 7
+
+
+ 242              		.file 11 "Core/Inc/main.h"
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 interrupts.c
+C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s:21     .text.HAL_I2C_MasterTxCpltCallback:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s:27     .text.HAL_I2C_MasterTxCpltCallback:00000000 HAL_I2C_MasterTxCpltCallback
+C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s:41     .text.HAL_GPIO_EXTI_Callback:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s:47     .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
+C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s:99     .text.HAL_GPIO_EXTI_Callback:00000024 $d
+C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s:105    .text.HAL_TIM_IC_CaptureCallback:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s:111    .text.HAL_TIM_IC_CaptureCallback:00000000 HAL_TIM_IC_CaptureCallback
+C:\Users\mathi\AppData\Local\Temp\ccnCaCuF.s:224    .text.HAL_TIM_IC_CaptureCallback:00000068 $d
+
+UNDEFINED SYMBOLS
+encoder_handle_interrupt
+encoder_1
+encoder_2
+hcsr04_handle_capture_complete
+ultra_1
+ultra_2
+ultra_3
+ultra_4

@@ -1,0 +1,314 @@
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"utils.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/utils.c"
+  20              		.section	.text.stamp_header,"ax",%progbits
+  21              		.align	1
+  22              		.global	stamp_header
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	stamp_header:
+  28              	.LVL0:
+  29              	.LFB5:
+   1:Core/Src/utils.c **** /*
+   2:Core/Src/utils.c ****  * ------------------------------------------------------------------------------------------------
+   3:Core/Src/utils.c ****  * File: utils.c
+   4:Core/Src/utils.c ****  * Created Date: Monday, February 26th 2024, 2:37:05 pm
+   5:Core/Src/utils.c ****  * Author: Florian Hye
+   6:Core/Src/utils.c ****  * Description: This file implements the utils functions.
+   7:Core/Src/utils.c ****  * ------------------------------------------------------------------------------------------------
+   8:Core/Src/utils.c ****  */
+   9:Core/Src/utils.c **** 
+  10:Core/Src/utils.c **** #include "utils.h"
+  11:Core/Src/utils.c **** 
+  12:Core/Src/utils.c **** #include "rcutils/time.h"
+  13:Core/Src/utils.c **** #include "rmw_microros/time_sync.h"
+  14:Core/Src/utils.c **** 
+  15:Core/Src/utils.c **** void stamp_header(builtin_interfaces__msg__Time *stamp) {
+  30              		.loc 1 15 57 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 15 57 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39 0002 0446     		mov	r4, r0
+  16:Core/Src/utils.c ****   stamp->sec = (int32_t)(rmw_uros_epoch_millis() / 1000);
+  40              		.loc 1 16 3 is_stmt 1 view .LVU2
+  41              		.loc 1 16 26 is_stmt 0 view .LVU3
+  42 0004 FFF7FEFF 		bl	rmw_uros_epoch_millis
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s 			page 2
+
+
+  43              	.LVL1:
+  44              		.loc 1 16 50 discriminator 1 view .LVU4
+  45 0008 4FF47A72 		mov	r2, #1000
+  46 000c 0023     		movs	r3, #0
+  47 000e FFF7FEFF 		bl	__aeabi_ldivmod
+  48              	.LVL2:
+  49              		.loc 1 16 14 discriminator 1 view .LVU5
+  50 0012 2060     		str	r0, [r4]
+  17:Core/Src/utils.c ****   stamp->nanosec = (int32_t)rmw_uros_epoch_nanos();
+  51              		.loc 1 17 3 is_stmt 1 view .LVU6
+  52              		.loc 1 17 29 is_stmt 0 view .LVU7
+  53 0014 FFF7FEFF 		bl	rmw_uros_epoch_nanos
+  54              	.LVL3:
+  55              		.loc 1 17 18 discriminator 1 view .LVU8
+  56 0018 6060     		str	r0, [r4, #4]
+  18:Core/Src/utils.c **** }
+  57              		.loc 1 18 1 view .LVU9
+  58 001a 10BD     		pop	{r4, pc}
+  59              		.loc 1 18 1 view .LVU10
+  60              		.cfi_endproc
+  61              	.LFE5:
+  63              		.section	.text.clamp,"ax",%progbits
+  64              		.align	1
+  65              		.global	clamp
+  66              		.syntax unified
+  67              		.thumb
+  68              		.thumb_func
+  70              	clamp:
+  71              	.LVL4:
+  72              	.LFB6:
+  19:Core/Src/utils.c **** 
+  20:Core/Src/utils.c **** double clamp(double d, double min, double max) {
+  73              		.loc 1 20 48 is_stmt 1 view -0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77              		.loc 1 20 48 is_stmt 0 view .LVU12
+  78 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+  79              		.cfi_def_cfa_offset 32
+  80              		.cfi_offset 3, -32
+  81              		.cfi_offset 4, -28
+  82              		.cfi_offset 5, -24
+  83              		.cfi_offset 6, -20
+  84              		.cfi_offset 7, -16
+  85              		.cfi_offset 8, -12
+  86              		.cfi_offset 9, -8
+  87              		.cfi_offset 14, -4
+  88 0004 55EC104B 		vmov	r4, r5, d0
+  89 0008 59EC118B 		vmov	r8, r9, d1
+  90 000c 57EC126B 		vmov	r6, r7, d2
+  21:Core/Src/utils.c ****   const double t = d < min ? min : d;
+  91              		.loc 1 21 3 is_stmt 1 view .LVU13
+  92              		.loc 1 21 34 is_stmt 0 view .LVU14
+  93 0010 4246     		mov	r2, r8
+  94 0012 4B46     		mov	r3, r9
+  95 0014 2046     		mov	r0, r4
+  96 0016 2946     		mov	r1, r5
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s 			page 3
+
+
+  97 0018 FFF7FEFF 		bl	__aeabi_dcmplt
+  98              	.LVL5:
+  99              		.loc 1 21 34 view .LVU15
+ 100 001c 08B1     		cbz	r0, .L4
+ 101              		.loc 1 21 34 discriminator 1 view .LVU16
+ 102 001e 4446     		mov	r4, r8
+ 103              	.LVL6:
+ 104              		.loc 1 21 34 discriminator 1 view .LVU17
+ 105 0020 4D46     		mov	r5, r9
+ 106              	.L4:
+ 107              	.LVL7:
+  22:Core/Src/utils.c ****   return t > max ? max : t;
+ 108              		.loc 1 22 3 is_stmt 1 view .LVU18
+ 109              		.loc 1 22 24 is_stmt 0 view .LVU19
+ 110 0022 3246     		mov	r2, r6
+ 111 0024 3B46     		mov	r3, r7
+ 112 0026 2046     		mov	r0, r4
+ 113 0028 2946     		mov	r1, r5
+ 114 002a FFF7FEFF 		bl	__aeabi_dcmpgt
+ 115              	.LVL8:
+ 116 002e 08B1     		cbz	r0, .L6
+ 117              		.loc 1 22 24 discriminator 1 view .LVU20
+ 118 0030 3446     		mov	r4, r6
+ 119              	.LVL9:
+ 120              		.loc 1 22 24 discriminator 1 view .LVU21
+ 121 0032 3D46     		mov	r5, r7
+ 122              	.L6:
+  23:Core/Src/utils.c **** }
+ 123              		.loc 1 23 1 view .LVU22
+ 124 0034 45EC104B 		vmov	d0, r4, r5
+ 125 0038 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 126              		.loc 1 23 1 view .LVU23
+ 127              		.cfi_endproc
+ 128              	.LFE6:
+ 130              		.section	.text.round_half_up_unscaled,"ax",%progbits
+ 131              		.align	1
+ 132              		.global	round_half_up_unscaled
+ 133              		.syntax unified
+ 134              		.thumb
+ 135              		.thumb_func
+ 137              	round_half_up_unscaled:
+ 138              	.LVL10:
+ 139              	.LFB7:
+  24:Core/Src/utils.c **** 
+  25:Core/Src/utils.c **** //***************************************************************************
+  26:Core/Src/utils.c **** /// Round to nearest integer. 'Half' value is rounded up (to infinity).
+  27:Core/Src/utils.c **** /// Uses 'symmetric up' rounding.
+  28:Core/Src/utils.c **** /// \param value Scaled integral.
+  29:Core/Src/utils.c **** /// \param SCALING Scaling must be divisible by 2
+  30:Core/Src/utils.c **** /// \return Unscaled, rounded integral.
+  31:Core/Src/utils.c **** //***************************************************************************
+  32:Core/Src/utils.c **** uint8_t round_half_up_unscaled(double value, uint8_t SCALING) {
+ 140              		.loc 1 32 63 is_stmt 1 view -0
+ 141              		.cfi_startproc
+ 142              		@ args = 0, pretend = 0, frame = 0
+ 143              		@ frame_needed = 0, uses_anonymous_args = 0
+ 144              		.loc 1 32 63 is_stmt 0 view .LVU25
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s 			page 4
+
+
+ 145 0000 D0B5     		push	{r4, r6, r7, lr}
+ 146              		.cfi_def_cfa_offset 16
+ 147              		.cfi_offset 4, -16
+ 148              		.cfi_offset 6, -12
+ 149              		.cfi_offset 7, -8
+ 150              		.cfi_offset 14, -4
+ 151 0002 57EC106B 		vmov	r6, r7, d0
+ 152 0006 0446     		mov	r4, r0
+  33:Core/Src/utils.c ****   if (value >= 0) {
+ 153              		.loc 1 33 3 is_stmt 1 view .LVU26
+ 154              		.loc 1 33 6 is_stmt 0 view .LVU27
+ 155 0008 0022     		movs	r2, #0
+ 156 000a 0023     		movs	r3, #0
+ 157 000c 3046     		mov	r0, r6
+ 158              	.LVL11:
+ 159              		.loc 1 33 6 view .LVU28
+ 160 000e 3946     		mov	r1, r7
+ 161 0010 FFF7FEFF 		bl	__aeabi_dcmpge
+ 162              	.LVL12:
+ 163              		.loc 1 33 6 view .LVU29
+ 164 0014 A8B1     		cbz	r0, .L16
+  34:Core/Src/utils.c ****     return (value + (SCALING / 2U)) / SCALING;
+ 165              		.loc 1 34 5 is_stmt 1 view .LVU30
+ 166              		.loc 1 34 19 is_stmt 0 view .LVU31
+ 167 0016 6008     		lsrs	r0, r4, #1
+ 168 0018 FFF7FEFF 		bl	__aeabi_ui2d
+ 169              	.LVL13:
+ 170 001c 3246     		mov	r2, r6
+ 171 001e 3B46     		mov	r3, r7
+ 172 0020 FFF7FEFF 		bl	__aeabi_dadd
+ 173              	.LVL14:
+ 174 0024 0646     		mov	r6, r0
+ 175              	.LVL15:
+ 176              		.loc 1 34 19 view .LVU32
+ 177 0026 0F46     		mov	r7, r1
+ 178              		.loc 1 34 37 view .LVU33
+ 179 0028 2046     		mov	r0, r4
+ 180 002a FFF7FEFF 		bl	__aeabi_i2d
+ 181              	.LVL16:
+ 182 002e 0246     		mov	r2, r0
+ 183 0030 0B46     		mov	r3, r1
+ 184 0032 3046     		mov	r0, r6
+ 185 0034 3946     		mov	r1, r7
+ 186 0036 FFF7FEFF 		bl	__aeabi_ddiv
+ 187              	.LVL17:
+ 188 003a FFF7FEFF 		bl	__aeabi_d2uiz
+ 189              	.LVL18:
+ 190 003e C0B2     		uxtb	r0, r0
+ 191              	.L14:
+  35:Core/Src/utils.c ****   } else {
+  36:Core/Src/utils.c ****     return (value - (SCALING / 2U)) / SCALING;
+  37:Core/Src/utils.c ****   }
+  38:Core/Src/utils.c **** }...
+ 192              		.loc 1 38 1 view .LVU34
+ 193 0040 D0BD     		pop	{r4, r6, r7, pc}
+ 194              	.LVL19:
+ 195              	.L16:
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s 			page 5
+
+
+  36:Core/Src/utils.c ****     return (value - (SCALING / 2U)) / SCALING;
+ 196              		.loc 1 36 5 is_stmt 1 view .LVU35
+  36:Core/Src/utils.c ****     return (value - (SCALING / 2U)) / SCALING;
+ 197              		.loc 1 36 19 is_stmt 0 view .LVU36
+ 198 0042 6008     		lsrs	r0, r4, #1
+ 199 0044 FFF7FEFF 		bl	__aeabi_ui2d
+ 200              	.LVL20:
+ 201 0048 0246     		mov	r2, r0
+ 202 004a 0B46     		mov	r3, r1
+ 203 004c 3046     		mov	r0, r6
+ 204 004e 3946     		mov	r1, r7
+ 205 0050 FFF7FEFF 		bl	__aeabi_dsub
+ 206              	.LVL21:
+ 207 0054 0646     		mov	r6, r0
+ 208              	.LVL22:
+  36:Core/Src/utils.c ****     return (value - (SCALING / 2U)) / SCALING;
+ 209              		.loc 1 36 19 view .LVU37
+ 210 0056 0F46     		mov	r7, r1
+  36:Core/Src/utils.c ****     return (value - (SCALING / 2U)) / SCALING;
+ 211              		.loc 1 36 37 view .LVU38
+ 212 0058 2046     		mov	r0, r4
+ 213 005a FFF7FEFF 		bl	__aeabi_i2d
+ 214              	.LVL23:
+ 215 005e 0246     		mov	r2, r0
+ 216 0060 0B46     		mov	r3, r1
+ 217 0062 3046     		mov	r0, r6
+ 218 0064 3946     		mov	r1, r7
+ 219 0066 FFF7FEFF 		bl	__aeabi_ddiv
+ 220              	.LVL24:
+ 221 006a FFF7FEFF 		bl	__aeabi_d2uiz
+ 222              	.LVL25:
+ 223 006e C0B2     		uxtb	r0, r0
+ 224 0070 E6E7     		b	.L14
+ 225              		.cfi_endproc
+ 226              	.LFE7:
+ 228              		.text
+ 229              	.Letext0:
+ 230              		.file 2 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 231              		.file 3 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 232              		.file 4 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 233              		.file 5 "micro_ros_stm32cubemx_utils/microros_static_library/libmicroros/microros_include/builtin_
+ 234              		.file 6 "micro_ros_stm32cubemx_utils/microros_static_library/libmicroros/microros_include/rmw/time
+ 235              		.file 7 "micro_ros_stm32cubemx_utils/microros_static_library/libmicroros/microros_include/rmw/type
+ 236              		.file 8 "micro_ros_stm32cubemx_utils/microros_static_library/libmicroros/microros_include/rmw/qos_
+ 237              		.file 9 "micro_ros_stm32cubemx_utils/microros_static_library/libmicroros/microros_include/rmw_micr
+ 238              		.file 10 "micro_ros_stm32cubemx_utils/microros_static_library/libmicroros/microros_include/test_ms
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 utils.c
+C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s:21     .text.stamp_header:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s:27     .text.stamp_header:00000000 stamp_header
+C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s:64     .text.clamp:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s:70     .text.clamp:00000000 clamp
+C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s:131    .text.round_half_up_unscaled:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccEM7m5a.s:137    .text.round_half_up_unscaled:00000000 round_half_up_unscaled
+
+UNDEFINED SYMBOLS
+rmw_uros_epoch_millis
+__aeabi_ldivmod
+rmw_uros_epoch_nanos
+__aeabi_dcmplt
+__aeabi_dcmpgt
+__aeabi_dcmpge
+__aeabi_ui2d
+__aeabi_dadd
+__aeabi_i2d
+__aeabi_ddiv
+__aeabi_d2uiz
+__aeabi_dsub

@@ -1,0 +1,220 @@
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccAg3eFh.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"servo_control.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/servo_control.c"
+  20              		.section	.text.SetSteeringAngle,"ax",%progbits
+  21              		.align	1
+  22              		.global	SetSteeringAngle
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	SetSteeringAngle:
+  28              	.LVL0:
+  29              	.LFB293:
+   1:Core/Src/servo_control.c **** #ifndef SERVO_CONTROL_C
+   2:Core/Src/servo_control.c **** #define SERVO_CONTROL_C
+   3:Core/Src/servo_control.c **** 
+   4:Core/Src/servo_control.c **** #include "servo_control.h"
+   5:Core/Src/servo_control.c **** #include "robot_config.h"
+   6:Core/Src/servo_control.c **** #include "main.h"
+   7:Core/Src/servo_control.c **** #include <math.h>
+   8:Core/Src/servo_control.c **** 
+   9:Core/Src/servo_control.c **** void Servo_Init(Servo_HandleTypeDef* servo) {
+  10:Core/Src/servo_control.c ****     HAL_TIM_PWM_Start(servo->timer, servo->channel);
+  11:Core/Src/servo_control.c ****     SetSteeringAngle(servo, CENTER_STEERING_ANGLE);  // Center steering
+  12:Core/Src/servo_control.c **** }
+  13:Core/Src/servo_control.c **** 
+  14:Core/Src/servo_control.c **** void SetSteeringAngle(Servo_HandleTypeDef* servo, float angle) {
+  30              		.loc 1 14 64 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 14 64 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39 0002 0446     		mov	r4, r0
+  15:Core/Src/servo_control.c ****     // Constrain input angle
+  16:Core/Src/servo_control.c ****     angle = fmaxf(fminf(angle, SERVO_MAX_ANGLE), SERVO_MIN_ANGLE);
+  40              		.loc 1 16 5 is_stmt 1 view .LVU2
+  41              		.loc 1 16 13 is_stmt 0 view .LVU3
+  42 0004 DFED100A 		vldr.32	s1, .L5
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccAg3eFh.s 			page 2
+
+
+  43 0008 FFF7FEFF 		bl	fminf
+  44              	.LVL1:
+  45              		.loc 1 16 13 discriminator 1 view .LVU4
+  46 000c DFED0F0A 		vldr.32	s1, .L5+4
+  47 0010 FFF7FEFF 		bl	fmaxf
+  48              	.LVL2:
+  17:Core/Src/servo_control.c **** 
+  18:Core/Src/servo_control.c ****     // Map angle to PWM pulse width
+  19:Core/Src/servo_control.c ****     float pulse_width = SERVO_PWM_MIN + 
+  49              		.loc 1 19 5 is_stmt 1 view .LVU5
+  20:Core/Src/servo_control.c ****                        ((angle / 180.0f) * 
+  50              		.loc 1 20 32 is_stmt 0 view .LVU6
+  51 0014 9FED0E7A 		vldr.32	s14, .L5+8
+  52 0018 C0EE077A 		vdiv.f32	s15, s0, s14
+  53              		.loc 1 20 42 view .LVU7
+  54 001c 9FED0D7A 		vldr.32	s14, .L5+12
+  55 0020 67EE877A 		vmul.f32	s15, s15, s14
+  19:Core/Src/servo_control.c ****                        ((angle / 180.0f) * 
+  56              		.loc 1 19 11 view .LVU8
+  57 0024 9FED0C7A 		vldr.32	s14, .L5+16
+  58 0028 77EE877A 		vadd.f32	s15, s15, s14
+  59              	.LVL3:
+  21:Core/Src/servo_control.c ****                        (SERVO_PWM_MAX - SERVO_PWM_MIN));
+  22:Core/Src/servo_control.c ****                        
+  23:Core/Src/servo_control.c ****     
+  24:Core/Src/servo_control.c ****     // Set PWM compare value
+  25:Core/Src/servo_control.c ****     switch(servo->channel) {
+  60              		.loc 1 25 5 is_stmt 1 view .LVU9
+  61              		.loc 1 25 17 is_stmt 0 view .LVU10
+  62 002c 6368     		ldr	r3, [r4, #4]
+  63              		.loc 1 25 5 view .LVU11
+  64 002e 082B     		cmp	r3, #8
+  65 0030 02D0     		beq	.L4
+  66              	.LVL4:
+  67              	.L2:
+  26:Core/Src/servo_control.c ****         case TIM_CHANNEL_3:
+  27:Core/Src/servo_control.c ****             servo->timer->Instance->CCR3 = (uint32_t)pulse_width;
+  28:Core/Src/servo_control.c ****             break;
+  29:Core/Src/servo_control.c ****         // Add other channels as needed
+  30:Core/Src/servo_control.c ****     }
+  31:Core/Src/servo_control.c ****     servo->current_angle = angle;
+  68              		.loc 1 31 5 is_stmt 1 view .LVU12
+  69              		.loc 1 31 26 is_stmt 0 view .LVU13
+  70 0032 84ED020A 		vstr.32	s0, [r4, #8]
+  32:Core/Src/servo_control.c **** }
+  71              		.loc 1 32 1 view .LVU14
+  72 0036 10BD     		pop	{r4, pc}
+  73              	.LVL5:
+  74              	.L4:
+  27:Core/Src/servo_control.c ****             break;
+  75              		.loc 1 27 13 is_stmt 1 view .LVU15
+  27:Core/Src/servo_control.c ****             break;
+  76              		.loc 1 27 18 is_stmt 0 view .LVU16
+  77 0038 2368     		ldr	r3, [r4]
+  27:Core/Src/servo_control.c ****             break;
+  78              		.loc 1 27 25 view .LVU17
+  79 003a 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccAg3eFh.s 			page 3
+
+
+  27:Core/Src/servo_control.c ****             break;
+  80              		.loc 1 27 44 view .LVU18
+  81 003c FCEEE77A 		vcvt.u32.f32	s15, s15
+  82              	.LVL6:
+  27:Core/Src/servo_control.c ****             break;
+  83              		.loc 1 27 42 view .LVU19
+  84 0040 C3ED0F7A 		vstr.32	s15, [r3, #60]	@ int
+  28:Core/Src/servo_control.c ****         // Add other channels as needed
+  85              		.loc 1 28 13 is_stmt 1 view .LVU20
+  86 0044 F5E7     		b	.L2
+  87              	.L6:
+  88 0046 00BF     		.align	2
+  89              	.L5:
+  90 0048 0000F042 		.word	1123024896
+  91 004c 00007042 		.word	1114636288
+  92 0050 00003443 		.word	1127481344
+  93 0054 0000FA44 		.word	1157234688
+  94 0058 0000FA43 		.word	1140457472
+  95              		.cfi_endproc
+  96              	.LFE293:
+  98              		.section	.text.Servo_Init,"ax",%progbits
+  99              		.align	1
+ 100              		.global	Servo_Init
+ 101              		.syntax unified
+ 102              		.thumb
+ 103              		.thumb_func
+ 105              	Servo_Init:
+ 106              	.LVL7:
+ 107              	.LFB292:
+   9:Core/Src/servo_control.c ****     HAL_TIM_PWM_Start(servo->timer, servo->channel);
+ 108              		.loc 1 9 45 view -0
+ 109              		.cfi_startproc
+ 110              		@ args = 0, pretend = 0, frame = 0
+ 111              		@ frame_needed = 0, uses_anonymous_args = 0
+   9:Core/Src/servo_control.c ****     HAL_TIM_PWM_Start(servo->timer, servo->channel);
+ 112              		.loc 1 9 45 is_stmt 0 view .LVU22
+ 113 0000 10B5     		push	{r4, lr}
+ 114              		.cfi_def_cfa_offset 8
+ 115              		.cfi_offset 4, -8
+ 116              		.cfi_offset 14, -4
+ 117 0002 0446     		mov	r4, r0
+  10:Core/Src/servo_control.c ****     SetSteeringAngle(servo, CENTER_STEERING_ANGLE);  // Center steering
+ 118              		.loc 1 10 5 is_stmt 1 view .LVU23
+ 119 0004 4168     		ldr	r1, [r0, #4]
+ 120 0006 0068     		ldr	r0, [r0]
+ 121              	.LVL8:
+  10:Core/Src/servo_control.c ****     SetSteeringAngle(servo, CENTER_STEERING_ANGLE);  // Center steering
+ 122              		.loc 1 10 5 is_stmt 0 view .LVU24
+ 123 0008 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+ 124              	.LVL9:
+  11:Core/Src/servo_control.c **** }
+ 125              		.loc 1 11 5 is_stmt 1 view .LVU25
+ 126 000c 9FED020A 		vldr.32	s0, .L9
+ 127 0010 2046     		mov	r0, r4
+ 128 0012 FFF7FEFF 		bl	SetSteeringAngle
+ 129              	.LVL10:
+  12:Core/Src/servo_control.c **** 
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccAg3eFh.s 			page 4
+
+
+ 130              		.loc 1 12 1 is_stmt 0 view .LVU26
+ 131 0016 10BD     		pop	{r4, pc}
+ 132              	.LVL11:
+ 133              	.L10:
+  12:Core/Src/servo_control.c **** 
+ 134              		.loc 1 12 1 view .LVU27
+ 135              		.align	2
+ 136              	.L9:
+ 137 0018 0000B442 		.word	1119092736
+ 138              		.cfi_endproc
+ 139              	.LFE292:
+ 141              		.text
+ 142              	.Letext0:
+ 143              		.file 2 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 144              		.file 3 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 145              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h"
+ 146              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 147              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 148              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 149              		.file 8 "Core/Inc/servo_control.h"
+ 150              		.file 9 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\ccAg3eFh.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 servo_control.c
+C:\Users\mathi\AppData\Local\Temp\ccAg3eFh.s:21     .text.SetSteeringAngle:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccAg3eFh.s:27     .text.SetSteeringAngle:00000000 SetSteeringAngle
+C:\Users\mathi\AppData\Local\Temp\ccAg3eFh.s:90     .text.SetSteeringAngle:00000048 $d
+C:\Users\mathi\AppData\Local\Temp\ccAg3eFh.s:99     .text.Servo_Init:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\ccAg3eFh.s:105    .text.Servo_Init:00000000 Servo_Init
+C:\Users\mathi\AppData\Local\Temp\ccAg3eFh.s:137    .text.Servo_Init:00000018 $d
+
+UNDEFINED SYMBOLS
+fminf
+fmaxf
+HAL_TIM_PWM_Start

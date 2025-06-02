@@ -1,0 +1,428 @@
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"motor_control.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/motor_control.c"
+  20              		.section	.text.Motor_Init,"ax",%progbits
+  21              		.align	1
+  22              		.global	Motor_Init
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Motor_Init:
+  28              	.LVL0:
+  29              	.LFB292:
+   1:Core/Src/motor_control.c **** #include "motor_control.h"
+   2:Core/Src/motor_control.c **** #include "main.h"
+   3:Core/Src/motor_control.c **** #include <stdbool.h>    
+   4:Core/Src/motor_control.c **** #include "robot_config.h"
+   5:Core/Src/motor_control.c **** 
+   6:Core/Src/motor_control.c **** void Motor_Init(Motor_HandleTypeDef* motor) {
+  30              		.loc 1 6 45 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 6 45 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39 0002 0446     		mov	r4, r0
+   7:Core/Src/motor_control.c **** 
+   8:Core/Src/motor_control.c **** switch (motor->pwm_channel){
+  40              		.loc 1 8 1 is_stmt 1 view .LVU2
+  41              		.loc 1 8 14 is_stmt 0 view .LVU3
+  42 0004 4168     		ldr	r1, [r0, #4]
+  43              		.loc 1 8 1 view .LVU4
+  44 0006 0429     		cmp	r1, #4
+  45 0008 09D0     		beq	.L2
+  46 000a 0829     		cmp	r1, #8
+  47 000c 0ED1     		bne	.L4
+   9:Core/Src/motor_control.c ****     case TIM_CHANNEL_2:
+  10:Core/Src/motor_control.c ****         HAL_TIM_PWM_Stop(motor->timer, motor->pwm_channel);
+  11:Core/Src/motor_control.c ****         motor->timer->Instance->CCR2 = 0;
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s 			page 2
+
+
+  12:Core/Src/motor_control.c ****         break;
+  13:Core/Src/motor_control.c ****     case TIM_CHANNEL_3:
+  14:Core/Src/motor_control.c ****         HAL_TIMEx_PWMN_Stop(motor->timer, motor->pwm_channel);
+  48              		.loc 1 14 9 is_stmt 1 view .LVU5
+  49 000e 0068     		ldr	r0, [r0]
+  50              	.LVL1:
+  51              		.loc 1 14 9 is_stmt 0 view .LVU6
+  52 0010 FFF7FEFF 		bl	HAL_TIMEx_PWMN_Stop
+  53              	.LVL2:
+  15:Core/Src/motor_control.c ****         motor->timer->Instance->CCR3 = 0;
+  54              		.loc 1 15 9 is_stmt 1 view .LVU7
+  55              		.loc 1 15 14 is_stmt 0 view .LVU8
+  56 0014 2368     		ldr	r3, [r4]
+  57              		.loc 1 15 21 view .LVU9
+  58 0016 1B68     		ldr	r3, [r3]
+  59              		.loc 1 15 38 view .LVU10
+  60 0018 0022     		movs	r2, #0
+  61 001a DA63     		str	r2, [r3, #60]
+  62 001c 06E0     		b	.L4
+  63              	.LVL3:
+  64              	.L2:
+  10:Core/Src/motor_control.c ****         motor->timer->Instance->CCR2 = 0;
+  65              		.loc 1 10 9 is_stmt 1 view .LVU11
+  66 001e 0068     		ldr	r0, [r0]
+  67              	.LVL4:
+  10:Core/Src/motor_control.c ****         motor->timer->Instance->CCR2 = 0;
+  68              		.loc 1 10 9 is_stmt 0 view .LVU12
+  69 0020 FFF7FEFF 		bl	HAL_TIM_PWM_Stop
+  70              	.LVL5:
+  11:Core/Src/motor_control.c ****         break;
+  71              		.loc 1 11 9 is_stmt 1 view .LVU13
+  11:Core/Src/motor_control.c ****         break;
+  72              		.loc 1 11 14 is_stmt 0 view .LVU14
+  73 0024 2368     		ldr	r3, [r4]
+  11:Core/Src/motor_control.c ****         break;
+  74              		.loc 1 11 21 view .LVU15
+  75 0026 1B68     		ldr	r3, [r3]
+  11:Core/Src/motor_control.c ****         break;
+  76              		.loc 1 11 38 view .LVU16
+  77 0028 0022     		movs	r2, #0
+  78 002a 9A63     		str	r2, [r3, #56]
+  12:Core/Src/motor_control.c ****     case TIM_CHANNEL_3:
+  79              		.loc 1 12 9 is_stmt 1 view .LVU17
+  80              	.L4:
+  16:Core/Src/motor_control.c **** }
+  17:Core/Src/motor_control.c **** 
+  18:Core/Src/motor_control.c **** 
+  19:Core/Src/motor_control.c **** 
+  20:Core/Src/motor_control.c ****     switch(motor->pwm_channel){
+  81              		.loc 1 20 5 view .LVU18
+  82              		.loc 1 20 17 is_stmt 0 view .LVU19
+  83 002c 6168     		ldr	r1, [r4, #4]
+  84              		.loc 1 20 5 view .LVU20
+  85 002e 0429     		cmp	r1, #4
+  86 0030 11D0     		beq	.L5
+  87 0032 0829     		cmp	r1, #8
+  88 0034 1ED1     		bne	.L1
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s 			page 3
+
+
+  21:Core/Src/motor_control.c ****         case TIM_CHANNEL_2:
+  22:Core/Src/motor_control.c ****             HAL_TIM_PWM_Start(motor->timer, motor->pwm_channel);
+  23:Core/Src/motor_control.c ****             motor->timer->Instance->CCER &= ~(TIM_CCER_CC1E << (4*(motor->pwm_channel-1)));
+  24:Core/Src/motor_control.c ****             break;
+  25:Core/Src/motor_control.c ****         case TIM_CHANNEL_3:
+  26:Core/Src/motor_control.c ****             HAL_TIMEx_PWMN_Start(motor->timer, motor->pwm_channel);
+  89              		.loc 1 26 13 is_stmt 1 view .LVU21
+  90 0036 2068     		ldr	r0, [r4]
+  91 0038 FFF7FEFF 		bl	HAL_TIMEx_PWMN_Start
+  92              	.LVL6:
+  27:Core/Src/motor_control.c ****             motor->timer->Instance->CCER &= ~(TIM_CCER_CC1E << (4*(motor->pwm_channel-1)));
+  93              		.loc 1 27 13 view .LVU22
+  94              		.loc 1 27 18 is_stmt 0 view .LVU23
+  95 003c 2368     		ldr	r3, [r4]
+  96              		.loc 1 27 25 view .LVU24
+  97 003e 1868     		ldr	r0, [r3]
+  98              		.loc 1 27 35 view .LVU25
+  99 0040 026A     		ldr	r2, [r0, #32]
+ 100              		.loc 1 27 73 view .LVU26
+ 101 0042 6368     		ldr	r3, [r4, #4]
+ 102              		.loc 1 27 86 view .LVU27
+ 103 0044 013B     		subs	r3, r3, #1
+ 104              		.loc 1 27 66 view .LVU28
+ 105 0046 9B00     		lsls	r3, r3, #2
+ 106              		.loc 1 27 61 view .LVU29
+ 107 0048 0121     		movs	r1, #1
+ 108 004a 01FA03F3 		lsl	r3, r1, r3
+ 109              		.loc 1 27 42 view .LVU30
+ 110 004e 22EA0303 		bic	r3, r2, r3
+ 111 0052 0362     		str	r3, [r0, #32]
+  28:Core/Src/motor_control.c ****             break;
+ 112              		.loc 1 28 13 is_stmt 1 view .LVU31
+  29:Core/Src/motor_control.c ****     }
+  30:Core/Src/motor_control.c **** }
+ 113              		.loc 1 30 1 is_stmt 0 view .LVU32
+ 114 0054 0EE0     		b	.L1
+ 115              	.L5:
+  22:Core/Src/motor_control.c ****             motor->timer->Instance->CCER &= ~(TIM_CCER_CC1E << (4*(motor->pwm_channel-1)));
+ 116              		.loc 1 22 13 is_stmt 1 view .LVU33
+ 117 0056 2068     		ldr	r0, [r4]
+ 118 0058 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+ 119              	.LVL7:
+  23:Core/Src/motor_control.c ****             break;
+ 120              		.loc 1 23 13 view .LVU34
+  23:Core/Src/motor_control.c ****             break;
+ 121              		.loc 1 23 18 is_stmt 0 view .LVU35
+ 122 005c 2368     		ldr	r3, [r4]
+  23:Core/Src/motor_control.c ****             break;
+ 123              		.loc 1 23 25 view .LVU36
+ 124 005e 1868     		ldr	r0, [r3]
+  23:Core/Src/motor_control.c ****             break;
+ 125              		.loc 1 23 35 view .LVU37
+ 126 0060 026A     		ldr	r2, [r0, #32]
+  23:Core/Src/motor_control.c ****             break;
+ 127              		.loc 1 23 73 view .LVU38
+ 128 0062 6368     		ldr	r3, [r4, #4]
+  23:Core/Src/motor_control.c ****             break;
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s 			page 4
+
+
+ 129              		.loc 1 23 86 view .LVU39
+ 130 0064 013B     		subs	r3, r3, #1
+  23:Core/Src/motor_control.c ****             break;
+ 131              		.loc 1 23 66 view .LVU40
+ 132 0066 9B00     		lsls	r3, r3, #2
+  23:Core/Src/motor_control.c ****             break;
+ 133              		.loc 1 23 61 view .LVU41
+ 134 0068 0121     		movs	r1, #1
+ 135 006a 01FA03F3 		lsl	r3, r1, r3
+  23:Core/Src/motor_control.c ****             break;
+ 136              		.loc 1 23 42 view .LVU42
+ 137 006e 22EA0303 		bic	r3, r2, r3
+ 138 0072 0362     		str	r3, [r0, #32]
+  24:Core/Src/motor_control.c ****         case TIM_CHANNEL_3:
+ 139              		.loc 1 24 13 is_stmt 1 view .LVU43
+ 140              	.L1:
+ 141              		.loc 1 30 1 is_stmt 0 view .LVU44
+ 142 0074 10BD     		pop	{r4, pc}
+ 143              		.loc 1 30 1 view .LVU45
+ 144              		.cfi_endproc
+ 145              	.LFE292:
+ 147              		.section	.text.SetMotorDirection,"ax",%progbits
+ 148              		.align	1
+ 149              		.global	SetMotorDirection
+ 150              		.syntax unified
+ 151              		.thumb
+ 152              		.thumb_func
+ 154              	SetMotorDirection:
+ 155              	.LVL8:
+ 156              	.LFB293:
+  31:Core/Src/motor_control.c **** 
+  32:Core/Src/motor_control.c **** void SetMotorDirection(Motor_HandleTypeDef* motor, bool forward) {
+ 157              		.loc 1 32 66 is_stmt 1 view -0
+ 158              		.cfi_startproc
+ 159              		@ args = 0, pretend = 0, frame = 0
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161              		.loc 1 32 66 is_stmt 0 view .LVU47
+ 162 0000 08B5     		push	{r3, lr}
+ 163              		.cfi_def_cfa_offset 8
+ 164              		.cfi_offset 3, -8
+ 165              		.cfi_offset 14, -4
+ 166 0002 0A46     		mov	r2, r1
+  33:Core/Src/motor_control.c ****     HAL_GPIO_WritePin(motor->dir_gpio_port, motor->dir_gpio_pin, forward ? GPIO_PIN_SET : GPIO_PIN_
+ 167              		.loc 1 33 5 is_stmt 1 view .LVU48
+ 168 0004 8189     		ldrh	r1, [r0, #12]
+ 169              	.LVL9:
+ 170              		.loc 1 33 5 is_stmt 0 view .LVU49
+ 171 0006 8068     		ldr	r0, [r0, #8]
+ 172              	.LVL10:
+ 173              		.loc 1 33 5 view .LVU50
+ 174 0008 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 175              	.LVL11:
+  34:Core/Src/motor_control.c **** }
+ 176              		.loc 1 34 1 view .LVU51
+ 177 000c 08BD     		pop	{r3, pc}
+ 178              		.cfi_endproc
+ 179              	.LFE293:
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s 			page 5
+
+
+ 181              		.section	.text.SetMotorSpeed,"ax",%progbits
+ 182              		.align	1
+ 183              		.global	SetMotorSpeed
+ 184              		.syntax unified
+ 185              		.thumb
+ 186              		.thumb_func
+ 188              	SetMotorSpeed:
+ 189              	.LVL12:
+ 190              	.LFB294:
+  35:Core/Src/motor_control.c **** 
+  36:Core/Src/motor_control.c **** void SetMotorSpeed(Motor_HandleTypeDef* motor, uint16_t speed) {
+ 191              		.loc 1 36 64 is_stmt 1 view -0
+ 192              		.cfi_startproc
+ 193              		@ args = 0, pretend = 0, frame = 0
+ 194              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195              		@ link register save eliminated.
+ 196              		.loc 1 36 64 is_stmt 0 view .LVU53
+ 197 0000 10B4     		push	{r4}
+ 198              		.cfi_def_cfa_offset 4
+ 199              		.cfi_offset 4, -4
+  37:Core/Src/motor_control.c ****     
+  38:Core/Src/motor_control.c ****     speed = (speed > 100) ? 100 : speed;
+ 200              		.loc 1 38 5 is_stmt 1 view .LVU54
+ 201              		.loc 1 38 11 is_stmt 0 view .LVU55
+ 202 0002 6429     		cmp	r1, #100
+ 203 0004 28BF     		it	cs
+ 204 0006 6421     		movcs	r1, #100
+ 205              	.LVL13:
+  39:Core/Src/motor_control.c ****     uint32_t arr = motor->timer->Instance->ARR;
+ 206              		.loc 1 39 5 is_stmt 1 view .LVU56
+ 207              		.loc 1 39 25 is_stmt 0 view .LVU57
+ 208 0008 0368     		ldr	r3, [r0]
+ 209              		.loc 1 39 32 view .LVU58
+ 210 000a 1B68     		ldr	r3, [r3]
+ 211              		.loc 1 39 14 view .LVU59
+ 212 000c DC6A     		ldr	r4, [r3, #44]
+ 213              	.LVL14:
+  40:Core/Src/motor_control.c ****     switch(motor->pwm_channel) {
+ 214              		.loc 1 40 5 is_stmt 1 view .LVU60
+ 215              		.loc 1 40 17 is_stmt 0 view .LVU61
+ 216 000e 4268     		ldr	r2, [r0, #4]
+ 217              		.loc 1 40 5 view .LVU62
+ 218 0010 042A     		cmp	r2, #4
+ 219 0012 09D0     		beq	.L12
+ 220 0014 082A     		cmp	r2, #8
+ 221 0016 0ED1     		bne	.L11
+  41:Core/Src/motor_control.c ****         case TIM_CHANNEL_2:
+  42:Core/Src/motor_control.c ****             motor->timer->Instance->CCR2 = (speed * (arr+1)) / 100;
+  43:Core/Src/motor_control.c ****             break;
+  44:Core/Src/motor_control.c ****         case TIM_CHANNEL_3:
+  45:Core/Src/motor_control.c ****             motor->timer->Instance->CCR3 = (speed * (arr+1)) / 100;
+ 222              		.loc 1 45 13 is_stmt 1 view .LVU63
+ 223              		.loc 1 45 51 is_stmt 0 view .LVU64
+ 224 0018 04FB0111 		mla	r1, r4, r1, r1
+ 225              	.LVL15:
+ 226              		.loc 1 45 62 view .LVU65
+ 227 001c 074A     		ldr	r2, .L16
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s 			page 6
+
+
+ 228 001e A2FB0121 		umull	r2, r1, r2, r1
+ 229 0022 4909     		lsrs	r1, r1, #5
+ 230              		.loc 1 45 42 view .LVU66
+ 231 0024 D963     		str	r1, [r3, #60]
+  46:Core/Src/motor_control.c ****             break;
+ 232              		.loc 1 46 13 is_stmt 1 view .LVU67
+  47:Core/Src/motor_control.c ****     }
+  48:Core/Src/motor_control.c **** }
+ 233              		.loc 1 48 1 is_stmt 0 view .LVU68
+ 234 0026 06E0     		b	.L11
+ 235              	.LVL16:
+ 236              	.L12:
+  42:Core/Src/motor_control.c ****             break;
+ 237              		.loc 1 42 13 is_stmt 1 view .LVU69
+  42:Core/Src/motor_control.c ****             break;
+ 238              		.loc 1 42 51 is_stmt 0 view .LVU70
+ 239 0028 04FB0111 		mla	r1, r4, r1, r1
+ 240              	.LVL17:
+  42:Core/Src/motor_control.c ****             break;
+ 241              		.loc 1 42 62 view .LVU71
+ 242 002c 034A     		ldr	r2, .L16
+ 243 002e A2FB0121 		umull	r2, r1, r2, r1
+ 244 0032 4909     		lsrs	r1, r1, #5
+  42:Core/Src/motor_control.c ****             break;
+ 245              		.loc 1 42 42 view .LVU72
+ 246 0034 9963     		str	r1, [r3, #56]
+  43:Core/Src/motor_control.c ****         case TIM_CHANNEL_3:
+ 247              		.loc 1 43 13 is_stmt 1 view .LVU73
+ 248              	.L11:
+ 249              		.loc 1 48 1 is_stmt 0 view .LVU74
+ 250 0036 5DF8044B 		ldr	r4, [sp], #4
+ 251              		.cfi_restore 4
+ 252              		.cfi_def_cfa_offset 0
+ 253              	.LVL18:
+ 254              		.loc 1 48 1 view .LVU75
+ 255 003a 7047     		bx	lr
+ 256              	.L17:
+ 257              		.align	2
+ 258              	.L16:
+ 259 003c 1F85EB51 		.word	1374389535
+ 260              		.cfi_endproc
+ 261              	.LFE294:
+ 263              		.section	.text.EnableMotorOutputs,"ax",%progbits
+ 264              		.align	1
+ 265              		.global	EnableMotorOutputs
+ 266              		.syntax unified
+ 267              		.thumb
+ 268              		.thumb_func
+ 270              	EnableMotorOutputs:
+ 271              	.LVL19:
+ 272              	.LFB295:
+  49:Core/Src/motor_control.c **** 
+  50:Core/Src/motor_control.c **** void EnableMotorOutputs(Motor_HandleTypeDef* motor) {
+ 273              		.loc 1 50 53 is_stmt 1 view -0
+ 274              		.cfi_startproc
+ 275              		@ args = 0, pretend = 0, frame = 0
+ 276              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s 			page 7
+
+
+ 277              		@ link register save eliminated.
+ 278              		.loc 1 50 53 is_stmt 0 view .LVU77
+ 279 0000 10B4     		push	{r4}
+ 280              		.cfi_def_cfa_offset 4
+ 281              		.cfi_offset 4, -4
+  51:Core/Src/motor_control.c ****     motor->timer->Instance->CCER |= (TIM_CCER_CC1E << (4 * (motor->pwm_channel - 1)));
+ 282              		.loc 1 51 5 is_stmt 1 view .LVU78
+ 283              		.loc 1 51 10 is_stmt 0 view .LVU79
+ 284 0002 0368     		ldr	r3, [r0]
+ 285              		.loc 1 51 17 view .LVU80
+ 286 0004 1C68     		ldr	r4, [r3]
+ 287              		.loc 1 51 27 view .LVU81
+ 288 0006 226A     		ldr	r2, [r4, #32]
+ 289              		.loc 1 51 66 view .LVU82
+ 290 0008 4368     		ldr	r3, [r0, #4]
+ 291              		.loc 1 51 80 view .LVU83
+ 292 000a 013B     		subs	r3, r3, #1
+ 293              		.loc 1 51 58 view .LVU84
+ 294 000c 9B00     		lsls	r3, r3, #2
+ 295              		.loc 1 51 52 view .LVU85
+ 296 000e 0121     		movs	r1, #1
+ 297 0010 01FA03F3 		lsl	r3, r1, r3
+ 298              		.loc 1 51 34 view .LVU86
+ 299 0014 1343     		orrs	r3, r3, r2
+ 300 0016 2362     		str	r3, [r4, #32]
+  52:Core/Src/motor_control.c **** }...
+ 301              		.loc 1 52 1 view .LVU87
+ 302 0018 5DF8044B 		ldr	r4, [sp], #4
+ 303              		.cfi_restore 4
+ 304              		.cfi_def_cfa_offset 0
+ 305 001c 7047     		bx	lr
+ 306              		.cfi_endproc
+ 307              	.LFE295:
+ 309              		.text
+ 310              	.Letext0:
+ 311              		.file 2 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 312              		.file 3 "C:/Users/mathi/AppData/Roaming/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-to
+ 313              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l452xx.h"
+ 314              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 315              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 316              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 317              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h"
+ 318              		.file 9 "Core/Inc/motor_control.h"
+ 319              		.file 10 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h"
+ARM GAS  C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 motor_control.c
+C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s:21     .text.Motor_Init:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s:27     .text.Motor_Init:00000000 Motor_Init
+C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s:148    .text.SetMotorDirection:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s:154    .text.SetMotorDirection:00000000 SetMotorDirection
+C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s:182    .text.SetMotorSpeed:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s:188    .text.SetMotorSpeed:00000000 SetMotorSpeed
+C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s:259    .text.SetMotorSpeed:0000003c $d
+C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s:264    .text.EnableMotorOutputs:00000000 $t
+C:\Users\mathi\AppData\Local\Temp\cc9BPfGY.s:270    .text.EnableMotorOutputs:00000000 EnableMotorOutputs
+
+UNDEFINED SYMBOLS
+HAL_TIMEx_PWMN_Stop
+HAL_TIM_PWM_Stop
+HAL_TIMEx_PWMN_Start
+HAL_TIM_PWM_Start
+HAL_GPIO_WritePin

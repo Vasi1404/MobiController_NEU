@@ -1,0 +1,17 @@
+{
+    "cortex-debug.armToolchainPath": "c:\\Users\\mathi\\AppData\\Roaming\\Code\\User\\globalStorage\\bmd.stm32-for-vscode\\@xpack-dev-tools\\arm-none-eabi-gcc\\14.2.1-1.1.1\\.content\\bin",
+    "cortex-debug.openocdPath": "c:\\Users\\mathi\\AppData\\Roaming\\Code\\User\\globalStorage\\bmd.stm32-for-vscode\\@xpack-dev-tools\\openocd\\0.12.0-6.1\\.content\\bin\\openocd.EXE",
+    "files.associations": {
+        "motordriver.h": "c",
+        "executor.h": "c",
+        "int32.h": "c",
+        "string__struct.h": "c",
+        "string__functions.h": "c",
+        "uchar.h": "c",
+        "transport.h": "c",
+        "custom_transport.h": "c",
+        "stm32l4xx_hal.h": "c",
+        "stm32l4xx_hal_conf.h": "c"
+    },
+    "stm32-for-vscode.armToolchainPath": "c:\\Users\\mathi\\AppData\\Roaming\\Code\\User\\globalStorage\\bmd.stm32-for-vscode\\@xpack-dev-tools\\arm-none-eabi-gcc\\14.2.1-1.1.1\\.content\\bin"
+}
